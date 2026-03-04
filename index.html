@@ -1461,7 +1461,7 @@
     </div>
     <div class="contact-right fade-in fade-in-delay-2">
       <h3 class="contact-form-title">Send a Message</h3>
-      <form id="contactForm">
+      <form id="contactForm" onsubmit="handleFormSubmit(event)">
         <div class="form-group">
           <label class="form-label">Your Name</label>
           <input type="text" name="name" class="form-input" placeholder="Jane Smith" required>
@@ -1581,7 +1581,7 @@
         btn.textContent = 'Send Message →';
     }, 3000);
   });
-}
+  }
 
   // ── SMOOTH PARALLAX ON HERO ──
   window.addEventListener('scroll', () => {
