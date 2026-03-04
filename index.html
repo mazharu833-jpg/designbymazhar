@@ -1065,6 +1065,8 @@
     .btn { text-align: center; justify-content: center; }
   }
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init("B752Nnzk7rEAsMeha")</script>
 </head>
 <body>
 
@@ -1459,7 +1461,7 @@
     </div>
     <div class="contact-right fade-in fade-in-delay-2">
       <h3 class="contact-form-title">Send a Message</h3>
-      <form action="https://formsubmit.co/mazharu833@gmail.com" method="POST">
+      <form id="contactForm">
         <div class="form-group">
           <label class="form-label">Your Name</label>
           <input type="text" name="name" class="form-input" placeholder="Jane Smith" required>
@@ -1472,9 +1474,6 @@
           <label class="form-label">Message</label>
           <textarea name="message" class="form-textarea" placeholder="Tell me about your project or opportunity..." required></textarea>
         </div>
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Message from %name%">
-        <input type="hidden" name="_replyto" value="%email%">
         <button type="submit" class="form-btn" id="submitBtn">Send Message →</button>
       </form>
     </div>
@@ -1562,6 +1561,9 @@
   function handleFormSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending...';
+    emailjs.sendForm('gmail_service', 'template_r884dvn', e.target)
+    .then(() => {
     btn.textContent = 'Message Sent ✓';
     btn.style.background = 'var(--bg3)';
     btn.style.color = 'var(--gold)';
@@ -1571,9 +1573,15 @@
       btn.style.background = '';
       btn.style.color = '';
       btn.style.border = '';
-      e.target.reset();
     }, 3000);
-  }
+      e.target.reset();
+    }, () => {
+      btn.textContent = 'Failed! Try Again';
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+    }, 3000);
+  });
+}
 
   // ── SMOOTH PARALLAX ON HERO ──
   window.addEventListener('scroll', () => {
