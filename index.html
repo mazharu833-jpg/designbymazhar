@@ -15,19 +15,26 @@
     --surface: #222220;
     --gold: #c9a84c;
     --gold-light: #e8c97a;
-    --gold-dim: rgba(201,168,76,0.15);
-    --text: #e8e6de;
-    --text-muted: #8a8878;
-    --text-dim: #5a5a4e;
-    --border: rgba(201,168,76,0.2);
+    --gold-dim: rgba(201,168,76,0.12);
+    --teal: #00bfae;
+    --teal-light: #2eddd0;
+    --teal-dim: rgba(0,191,174,0.10);
+    /* ── THE GRADIENT ── */
+    --grad: linear-gradient(135deg, var(--gold) 0%, var(--teal) 100%);
+    --grad-h: linear-gradient(90deg, var(--gold) 0%, var(--teal) 100%);
+    --grad-dim: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(0,191,174,0.12) 100%);
+    --border: rgba(201,168,76,0.18);
+    --border-teal: rgba(0,191,174,0.18);
     --radius: 4px;
     --font-display: 'Playfair Display', Georgia, serif;
     --font-mono: 'DM Mono', monospace;
     --font-body: 'DM Sans', sans-serif;
+    --text: #e8e6de;
+    --text-muted: #8a8878;
+    --text-dim: #5a5a4e;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -42,7 +49,10 @@
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--grad);
+    border-radius: 2px;
+  }
 
   /* ── NAV ── */
   nav {
@@ -56,16 +66,20 @@
     justify-content: space-between;
     background: rgba(12,12,11,0.85);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
     transition: all 0.3s;
   }
 
   .nav-logo {
     font-family: var(--font-display);
     font-size: 1.1rem;
-    color: var(--gold);
     text-decoration: none;
     letter-spacing: 0.02em;
+    /* gradient text */
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .nav-links {
@@ -90,11 +104,16 @@
     position: absolute;
     bottom: -4px; left: 0;
     width: 0; height: 1px;
-    background: var(--gold);
+    background: var(--grad-h);
     transition: width 0.3s;
   }
 
-  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover {
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
   .nav-links a:hover::after { width: 100%; }
 
   .hamburger {
@@ -124,7 +143,7 @@
     position: fixed;
     top: 64px; left: 0; right: 0;
     background: var(--bg2);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
     z-index: 99;
     padding: 1.5rem 5vw;
     flex-direction: column;
@@ -141,7 +160,12 @@
     text-decoration: none;
     transition: color 0.2s;
   }
-  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu a:hover {
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
   /* ── SECTION BASE ── */
   section {
@@ -155,11 +179,14 @@
     font-size: 0.68rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--gold);
     margin-bottom: 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .section-label::after {
@@ -167,8 +194,9 @@
     flex: 1;
     max-width: 60px;
     height: 1px;
-    background: var(--gold);
-    opacity: 0.5;
+    background: var(--grad-h);
+    opacity: 0.6;
+    -webkit-text-fill-color: initial;
   }
 
   .section-title {
@@ -186,12 +214,7 @@
     transform: translateY(30px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
   .fade-in-delay-1 { transition-delay: 0.1s; }
   .fade-in-delay-2 { transition-delay: 0.2s; }
   .fade-in-delay-3 { transition-delay: 0.3s; }
@@ -229,10 +252,8 @@
   .hero-bg::before {
     content: '';
     position: absolute;
-    top: -20%;
-    right: -10%;
-    width: 60vw;
-    height: 60vw;
+    top: -20%; right: -10%;
+    width: 60vw; height: 60vw;
     background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
     border-radius: 50%;
   }
@@ -240,11 +261,9 @@
   .hero-bg::after {
     content: '';
     position: absolute;
-    bottom: 10%;
-    left: -5%;
-    width: 40vw;
-    height: 40vw;
-    background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+    bottom: 10%; left: -5%;
+    width: 40vw; height: 40vw;
+    background: radial-gradient(circle, rgba(0,191,174,0.05) 0%, transparent 70%);
     border-radius: 50%;
   }
 
@@ -253,10 +272,13 @@
     font-size: 0.72rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--gold);
     margin-bottom: 1.5rem;
     opacity: 0;
     animation: slideUp 0.8s 0.2s forwards;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .hero-name {
@@ -273,7 +295,11 @@
 
   .hero-name em {
     font-style: italic;
-    color: var(--gold);
+    /* gradient text on display name */
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .hero-title {
@@ -290,7 +316,7 @@
   .hero-divider {
     width: 60px;
     height: 2px;
-    background: var(--gold);
+    background: var(--grad-h);
     margin-bottom: 2rem;
     opacity: 0;
     animation: slideUp 0.9s 0.6s forwards;
@@ -330,29 +356,32 @@
   }
 
   .btn-primary {
-    background: var(--gold);
+    background: var(--grad);
     color: var(--bg);
-    border: 1px solid var(--gold);
+    border: 1px solid transparent;
     font-weight: 500;
   }
 
   .btn-primary:hover {
-    background: var(--gold-light);
-    border-color: var(--gold-light);
+    opacity: 0.88;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.25), 0 8px 24px rgba(0,191,174,0.15);
   }
 
   .btn-outline {
     background: transparent;
     color: var(--gold);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.3);
+    position: relative;
+    overflow: hidden;
   }
 
+  /* outline button — gradient text on hover */
   .btn-outline:hover {
-    border-color: var(--gold);
-    background: var(--gold-dim);
+    border-image: var(--grad-h) 1;
+    background: var(--grad-dim);
     transform: translateY(-2px);
+    color: var(--teal);
   }
 
   .hero-scroll {
@@ -385,7 +414,7 @@
     top: 0; left: -100%;
     width: 100%;
     height: 100%;
-    background: var(--gold);
+    background: var(--grad-h);
     animation: scrollAnim 2s 1.5s infinite;
   }
 
@@ -393,12 +422,10 @@
     from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
-
   @keyframes scrollAnim {
     0% { left: -100%; }
     100% { left: 100%; }
@@ -416,9 +443,7 @@
     align-items: center;
   }
 
-  .about-img-wrap {
-    position: relative;
-  }
+  .about-img-wrap { position: relative; }
 
   .about-img-placeholder {
     width: 100%;
@@ -434,7 +459,7 @@
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.1em;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     position: relative;
     overflow: hidden;
   }
@@ -443,22 +468,18 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.05) 100%);
+    background: linear-gradient(135deg, transparent 40%, rgba(0,191,174,0.04) 100%);
   }
 
-  .photo-icon {
-    font-size: 3rem;
-    opacity: 0.3;
-  }
+  .photo-icon { font-size: 3rem; opacity: 0.3; }
 
   .about-img-wrap::after {
     content: '';
     position: absolute;
-    bottom: -12px;
-    right: -12px;
-    width: 100%;
-    height: 100%;
-    border: 1px solid var(--border);
+    bottom: -12px; right: -12px;
+    width: 100%; height: 100%;
+    border: 1px solid transparent;
+    border-image: var(--grad) 1;
     border-radius: 2px;
     z-index: -1;
   }
@@ -477,15 +498,18 @@
     gap: 1.5rem;
     margin-top: 2.5rem;
     padding-top: 2.5rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(201,168,76,0.15);
   }
 
   .stat-num {
     font-family: var(--font-display);
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--gold);
     line-height: 1;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .stat-label {
@@ -508,14 +532,14 @@
 
   .skill-category {
     background: var(--bg2);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     padding: 1.75rem;
     transition: border-color 0.3s, transform 0.3s;
   }
 
   .skill-category:hover {
-    border-color: var(--gold);
+    border-color: rgba(0,191,174,0.4);
     transform: translateY(-4px);
   }
 
@@ -524,15 +548,16 @@
     font-size: 0.68rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--gold);
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .skill-item {
-    margin-bottom: 1.1rem;
-  }
+  .skill-item { margin-bottom: 1.1rem; }
 
   .skill-header {
     display: flex;
@@ -541,10 +566,7 @@
     margin-bottom: 0.4rem;
   }
 
-  .skill-name {
-    font-size: 0.88rem;
-    color: var(--text);
-  }
+  .skill-name { font-size: 0.88rem; color: var(--text); }
 
   .skill-pct {
     font-family: var(--font-mono);
@@ -561,7 +583,7 @@
 
   .skill-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    background: var(--grad-h);
     border-radius: 1px;
     width: 0;
     transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -579,16 +601,16 @@
     font-size: 0.65rem;
     letter-spacing: 0.08em;
     padding: 0.3rem 0.7rem;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: 2px;
     color: var(--text-muted);
     transition: all 0.2s;
   }
 
   .skill-tag:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: var(--gold-dim);
+    border-color: var(--teal);
+    color: var(--teal);
+    background: var(--teal-dim);
   }
 
   /* ── EXPERIENCE ── */
@@ -610,15 +632,14 @@
     top: 0; bottom: 0;
     left: 6px;
     width: 1px;
-    background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
-    opacity: 0.4;
+    background: linear-gradient(to bottom, var(--gold) 0%, var(--teal) 60%, transparent 100%);
+    opacity: 0.5;
   }
 
   .timeline-item {
     position: relative;
     padding-bottom: 3.5rem;
   }
-
   .timeline-item:last-child { padding-bottom: 0; }
 
   .timeline-dot {
@@ -630,11 +651,12 @@
     border-radius: 50%;
     border: 2px solid var(--gold);
     background: var(--bg2);
-    transition: background 0.3s;
+    transition: background 0.3s, border-color 0.3s;
   }
 
   .timeline-item:hover .timeline-dot {
-    background: var(--gold);
+    background: var(--grad);
+    border-color: var(--teal);
   }
 
   .timeline-meta {
@@ -691,7 +713,7 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 0.2rem 0.55rem;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: 2px;
     color: var(--text-dim);
   }
@@ -707,7 +729,7 @@
 
   .project-card {
     background: var(--bg2);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     padding: 2rem;
     position: relative;
@@ -721,27 +743,25 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    background: var(--grad-h);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s;
   }
 
   .project-card:hover {
-    border-color: rgba(201,168,76,0.4);
+    border-color: rgba(0,191,174,0.3);
     transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,191,174,0.05);
   }
 
-  .project-card:hover::before {
-    transform: scaleX(1);
-  }
+  .project-card:hover::before { transform: scaleX(1); }
 
   .project-number {
     font-family: var(--font-display);
     font-size: 3.5rem;
     font-weight: 900;
-    color: rgba(201,168,76,0.08);
+    color: rgba(201,168,76,0.06);
     line-height: 1;
     position: absolute;
     top: 1rem;
@@ -749,11 +769,7 @@
     user-select: none;
   }
 
-  .project-icon {
-    font-size: 1.8rem;
-    margin-bottom: 1.2rem;
-    display: block;
-  }
+  .project-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
 
   .project-title {
     font-family: var(--font-display);
@@ -788,22 +804,22 @@
     border-radius: 2px;
   }
 
-  .project-links {
-    display: flex;
-    gap: 1rem;
-  }
+  .project-links { display: flex; gap: 1rem; }
 
   .proj-link {
     font-family: var(--font-mono);
     font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--gold);
     text-decoration: none;
     transition: opacity 0.2s;
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .proj-link:hover { opacity: 0.7; }
@@ -824,7 +840,7 @@
 
   .edu-card {
     background: var(--bg3);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     padding: 2rem;
     transition: all 0.3s;
@@ -832,7 +848,7 @@
   }
 
   .edu-card:hover {
-    border-color: rgba(201,168,76,0.4);
+    border-color: rgba(0,191,174,0.35);
     transform: translateY(-4px);
   }
 
@@ -840,8 +856,11 @@
     font-family: var(--font-mono);
     font-size: 0.68rem;
     letter-spacing: 0.12em;
-    color: var(--gold);
     margin-bottom: 0.75rem;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .edu-degree {
@@ -852,11 +871,7 @@
     color: var(--text);
   }
 
-  .edu-school {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
+  .edu-school { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
 
   .edu-detail {
     font-size: 0.83rem;
@@ -874,9 +889,7 @@
     align-items: start;
   }
 
-  .contact-left .section-title {
-    margin-bottom: 1rem;
-  }
+  .contact-left .section-title { margin-bottom: 1rem; }
 
   .contact-text {
     color: var(--text-muted);
@@ -892,19 +905,18 @@
     font-family: var(--font-display);
     font-size: 1.15rem;
     font-style: italic;
-    color: var(--gold);
     text-decoration: none;
     margin-bottom: 3rem;
     transition: opacity 0.2s;
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .contact-email:hover { opacity: 0.75; }
 
-  .social-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
+  .social-links { display: flex; gap: 1rem; flex-wrap: wrap; }
 
   .social-link {
     display: flex;
@@ -917,21 +929,21 @@
     color: var(--text-muted);
     text-decoration: none;
     padding: 0.6rem 1.1rem;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     transition: all 0.3s;
   }
 
   .social-link:hover {
-    color: var(--gold);
-    border-color: var(--gold);
-    background: var(--gold-dim);
+    color: var(--teal);
+    border-color: var(--teal);
+    background: var(--teal-dim);
     transform: translateY(-2px);
   }
 
   .contact-right {
     background: var(--bg2);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     padding: 2.5rem;
   }
@@ -943,9 +955,7 @@
     color: var(--text);
   }
 
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
+  .form-group { margin-bottom: 1.5rem; }
 
   .form-label {
     display: block;
@@ -960,7 +970,7 @@
   .form-input, .form-textarea {
     width: 100%;
     background: var(--bg3);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(201,168,76,0.18);
     border-radius: var(--radius);
     padding: 0.75rem 1rem;
     color: var(--text);
@@ -972,14 +982,14 @@
   }
 
   .form-input:focus, .form-textarea:focus {
-    border-color: var(--gold);
+    border-color: var(--teal);
   }
 
   .form-textarea { height: 120px; }
 
   .form-btn {
     width: 100%;
-    background: var(--gold);
+    background: var(--grad);
     color: var(--bg);
     border: none;
     padding: 0.85rem;
@@ -994,14 +1004,14 @@
   }
 
   .form-btn:hover {
-    background: var(--gold-light);
+    opacity: 0.88;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.2), 0 8px 24px rgba(0,191,174,0.15);
   }
 
   /* ── FOOTER ── */
   footer {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(201,168,76,0.15);
     padding: 2rem 5vw;
     display: flex;
     justify-content: space-between;
@@ -1030,7 +1040,12 @@
     transition: color 0.2s;
   }
 
-  .footer-back:hover { color: var(--gold); }
+  .footer-back:hover {
+    background: var(--grad-h);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
@@ -1043,19 +1058,12 @@
       padding: 60px 5vw;
     }
 
-    .about-stats { grid-template-columns: repeat(3,1fr); }
-
-    .contact-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-
+    .about-stats { grid-template-columns: repeat(3, 1fr); }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
     section { padding: 70px 5vw; }
     #experience .exp-inner, #education .edu-inner { padding: 70px 5vw; }
-
     .projects-grid { grid-template-columns: 1fr; }
     .edu-grid { grid-template-columns: 1fr; }
-
     .hero-name { font-size: clamp(3rem, 14vw, 6rem); }
   }
 
@@ -1120,24 +1128,24 @@
   <div class="about-inner">
     <div class="about-img-wrap fade-in">
     <img src="Golden Halo Portrait 4.png"
-         alt="Mazhar Uddin"style="width:100%; height:100%; object-fit:cover; border-radius:2px;">
+         alt="Mazhar Uddin" style="width:100%; height:100%; object-fit:cover; border-radius:2px;">
     </div>
     <div class="about-content">
       <p class="section-label fade-in">About Me</p>
-      <h2 class="section-title fade-in fade-in-delay-1">A little bit<br><em style="font-style:italic;color:var(--gold)">about me</em></h2>
+      <h2 class="section-title fade-in fade-in-delay-1">A little bit<br><em style="font-style:italic; background:var(--grad-h); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">about me</em></h2>
       <p class="about-text fade-in fade-in-delay-2">I began my career in the BPO industry, where I worked for three years and developed strong communication and problem-solving skills. Interacting with customers daily helped me truly understand user frustrations and expectations. After a long break, I chose to transition into UI/UX design with clarity and purpose, turning my curiosity about digital experiences into a focused career path.</p>
       <p class="about-text fade-in fade-in-delay-3">I value empathy, simplicity, and continuous improvement. My working style is research-driven and practical. I focus on understanding users deeply, thinking logically, and creating clean, functional designs that solve real problems.</p>
       <div class="about-stats fade-in fade-in-delay-4">
         <div>
-          <div class="stat-num">3+</div>
+          <div class="stat-num">2+</div>
           <div class="stat-label">Years Experience</div>
         </div>
         <div>
-          <div class="stat-num">[#]+</div>
+          <div class="stat-num">6</div>
           <div class="stat-label">Projects Completed</div>
         </div>
         <div>
-          <div class="stat-num">[#]+</div>
+          <div class="stat-num">8</div>
           <div class="stat-label">Happy Clients</div>
         </div>
       </div>
@@ -1190,49 +1198,49 @@
     </div>
 
     <div class="skill-category fade-in fade-in-delay-2">
-  <p class="skill-cat-title">Visual & UI Design</p>
-  <div class="skill-item">
-    <div class="skill-header">
-      <span class="skill-name">Skill 1 — Visual Design</span>
-      <span class="skill-pct">80%</span>
-    </div> 
-    <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-  </div>
-  <div class="skill-item">
-    <div class="skill-header">
-      <span class="skill-name">Skill 2 — Prototyping</span>
-      <span class="skill-pct">82%</span>
+      <p class="skill-cat-title">Visual & UI Design</p>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Skill 1 — Visual Design</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Skill 2 — Prototyping</span>
+          <span class="skill-pct">82%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Skill 3 — Design Systems</span>
+          <span class="skill-pct">78%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Skill 4 — Typography & Color Theory</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Skill 5 — Responsive UI Design</span>
+          <span class="skill-pct">75%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Component Design</span>
+        <span class="skill-tag">Spacing & Grid</span>
+        <span class="skill-tag">Design Handoff</span>
+        <span class="skill-tag">Micro-interactions</span>
+      </div>
     </div>
-    <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
-  </div>
-  <div class="skill-item">
-    <div class="skill-header">
-      <span class="skill-name">Skill 3 — Design Systems</span>
-      <span class="skill-pct">78%</span>
-    </div>
-    <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
-  </div>
-  <div class="skill-item">
-    <div class="skill-header">
-      <span class="skill-name">Skill 4 — Typography & Color Theory</span>
-      <span class="skill-pct">80%</span>
-    </div>
-    <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-  </div>
-  <div class="skill-item">
-    <div class="skill-header">
-      <span class="skill-name">Skill 5 — Responsive UI Design</span>
-      <span class="skill-pct">75%</span>
-    </div>
-    <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
-  </div>
-  <div class="skill-tags">
-    <span class="skill-tag">Component Design</span>
-    <span class="skill-tag">Spacing & Grid</span>
-    <span class="skill-tag">Design Handoff</span>
-    <span class="skill-tag">Micro-interactions</span>
-  </div>
-</div>
 
     <div class="skill-category fade-in fade-in-delay-3">
       <p class="skill-cat-title">Tools & Other</p>
@@ -1426,18 +1434,11 @@
         <p class="edu-detail">[GPA, honors, or a short note about what you studied or achieved]</p>
       </div>
 
-      <div class="edu-card fade-in fade-in-delay-1">
-        <p class="edu-year">[YEAR]</p>
-        <h3 class="edu-degree">[Certification Name]</h3>
-        <p class="edu-school">[Issuing Organization — e.g. AWS, Google, Meta]</p>
-        <p class="edu-detail">[Credential ID or brief description of what this covers]</p>
-      </div>
-
       <div class="edu-card fade-in fade-in-delay-2">
-        <p class="edu-year">[YEAR]</p>
-        <h3 class="edu-degree">[Certification or Course Name]</h3>
-        <p class="edu-school">[Issuing Organization or Platform]</p>
-        <p class="edu-detail">[Brief note — topic area, credential, or relevance to your work]</p>
+        <p class="edu-year">2025</p>
+        <h3 class="edu-degree">Advanced Certification in UI/UX Design Strategy</h3>
+        <p class="edu-school">Intellipaat Software Solutions Pvt Ltd.</p>
+        <p class="edu-detail">UI UX Design Course — Cert. ID 31679-912027-345554</p>
       </div>
 
     </div>
@@ -1450,9 +1451,9 @@
     <div class="contact-left">
       <p class="section-label fade-in">Let's Talk</p>
       <h2 class="section-title fade-in fade-in-delay-1">Get In<br>Touch</h2>
-      <p class="contact-text fade-in fade-in-delay-2">"I'm currently open to new opportunities and interesting projects. Wheather you have a question, a cool idea, or just want to say hi...my inbox is always open. Let's create something great together!"</p>
-      <a href="mailto:[YOUR EMAIL]" class="contact-email fade-in fade-in-delay-3">
-        📧👉🏻[mazharu833@gmail.com]
+      <p class="contact-text fade-in fade-in-delay-2">"I'm currently open to new opportunities and interesting projects. Whether you have a question, a cool idea, or just want to say hi...my inbox is always open. Let's create something great together!"</p>
+      <a href="mailto:mazharu833@gmail.com" class="contact-email fade-in fade-in-delay-3">
+        📧👉🏻 mazharu833@gmail.com
       </a>
       <div class="social-links fade-in fade-in-delay-4">
         <a href="[LINKEDIN URL]" class="social-link" target="_blank">in LinkedIn</a>
@@ -1489,10 +1490,8 @@
 </footer>
 
 <script>
-  // ── YEAR ──
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ── HAMBURGER ──
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
 
@@ -1508,24 +1507,19 @@
     });
   });
 
-  // ── SCROLL FADE IN ──
   const fadeEls = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        // Animate skill bars when visible
         const fills = entry.target.querySelectorAll('.skill-fill');
-        fills.forEach(fill => {
-          fill.style.width = fill.dataset.pct + '%';
-        });
+        fills.forEach(fill => { fill.style.width = fill.dataset.pct + '%'; });
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
   fadeEls.forEach(el => observer.observe(el));
 
-  // Skill bars in skill categories
   const skillObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1539,7 +1533,6 @@
 
   document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
 
-  // ── NAV ACTIVE STATE ──
   const sections = document.querySelectorAll('section, [id]');
   const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -1547,45 +1540,46 @@
     let current = '';
     sections.forEach(section => {
       const sectionTop = section.offsetTop - 80;
-      if (window.scrollY >= sectionTop) {
-        current = section.getAttribute('id');
-      }
+      if (window.scrollY >= sectionTop) current = section.getAttribute('id');
     });
     navLinks.forEach(link => {
+      link.style.background = '';
+      link.style.webkitBackgroundClip = '';
+      link.style.webkitTextFillColor = '';
+      link.style.backgroundClip = '';
       link.style.color = '';
       if (link.getAttribute('href') === '#' + current) {
-        link.style.color = 'var(--gold)';
+        link.style.background = 'linear-gradient(90deg, #c9a84c, #00bfae)';
+        link.style.webkitBackgroundClip = 'text';
+        link.style.webkitTextFillColor = 'transparent';
+        link.style.backgroundClip = 'text';
       }
     });
   });
 
-  // ── FORM SUBMIT ──
   function handleFormSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Sending...';
     emailjs.sendForm('gmail_service', 'template_r884dvn', e.target)
     .then(() => {
-    btn.textContent = 'Message Sent ✓';
-    btn.style.background = 'var(--bg3)';
-    btn.style.color = 'var(--gold)';
-    btn.style.border = '1px solid var(--gold)';
-    setTimeout(() => {
-      btn.textContent = 'Send Message →';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.style.border = '';
-    }, 3000);
+      btn.textContent = 'Message Sent ✓';
+      btn.style.background = 'var(--bg3)';
+      btn.style.color = 'var(--teal)';
+      btn.style.border = '1px solid var(--teal)';
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.border = '';
+      }, 3000);
       e.target.reset();
     }, () => {
       btn.textContent = 'Failed! Try Again';
-      setTimeout(() => {
-        btn.textContent = 'Send Message →';
-    }, 3000);
-  });
+      setTimeout(() => { btn.textContent = 'Send Message →'; }, 3000);
+    });
   }
 
-  // ── SMOOTH PARALLAX ON HERO ──
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const heroBg = document.querySelector('.hero-bg');
