@@ -728,10 +728,7 @@
   }
 
   .project-card {
-  background-image: url('Thumbnail-high resolution.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--bg2);
   border: 1px solid rgba(201,168,76,0.18);
   border-radius: var(--radius);
     padding: 2rem;
@@ -752,7 +749,7 @@
     transition: transform 0.4s;
   }
 
-  .project-card::after {
+  .fenre-card::after {
     content: '';
     positon: absolute;
     inset: 0;
@@ -765,7 +762,7 @@
     z-index: 0;
   }
 
-  .project-card > * {
+  .fenre-card > * {
     position: relative;
     z-index: 1;
   }
@@ -1363,8 +1360,7 @@
   <h2 class="section-title fade-in fade-in-delay-1">Featured<br>Projects</h2>
   <div class="projects-grid">
 
-    <div class="project-card fade-in" style="background-image: url('Thumbnail-high resolution.png');">
-     <span class="project-number">01</span>
+    <div class="project-card fenre-card fade-in" style="background-image: url('Thumbnail-high resolution.png');">
       <span class="project-icon">◈</span>
       <h3 class="project-title">FENRE</h3>
       <p class="project-desc"><strong>PROBLEM:</strong> E-commerce platforms in Kolkata's premium menswear market were either non-existent or poorly designed — heavy, slow frameworks that didn't reflect the brand's premium positioning.<br><br><strong>SOLUTION:</strong> Built a lightweight, fully responsive e-commerce website using vanilla JavaScript and optimized CSS. Designed intuitive product navigation, smooth checkout flow, and custom interactive elements that enhance browsing without external framework overhead.<br><br><strong>RESULT:</strong> Fast-loading, premium-looking online storefront that serves as the primary customer touchpoint. Brand consistency maintained across design, typography, and user experience.</p>
