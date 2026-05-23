@@ -285,14 +285,16 @@
     font-family: var(--font-display);
     font-size: clamp(3.5rem, 9vw, 8rem);
     font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
     color: var(--text);
     opacity: 0;
     animation: slideUp 0.9s 0.35s forwards;
     word-spacing: 0.1em;
     overflow: visible;
+    display: inline-block;
+    padding-bottom: 0.1em;
   }
 
   .hero-name em {
@@ -302,7 +304,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: inline-block;
+    display: inline;
   }
 
   .hero-title {
@@ -736,7 +738,7 @@
     border-radius: var(--radius);
     padding: 2rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.4s;
     cursor: default;
     display: flex;
@@ -753,6 +755,7 @@
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s;
+    pointer-events: none;
   }
   
   .project-card:hover {
@@ -773,6 +776,7 @@
     top: 1rem;
     right: 1.5rem;
     user-select: none;
+    pointer-events: none;
   }
 
   .project-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
@@ -998,13 +1002,13 @@
     width: 100%;
     background: var(--grad);
     color: var(--bg);
-    border: none;
-    padding: 0.85rem;
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid transparent;
     border-radius: var(--radius);
     cursor: pointer;
     transition: all 0.3s;
@@ -1013,81 +1017,39 @@
   .form-btn:hover {
     opacity: 0.88;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(201,168,76,0.2), 0 8px 24px rgba(0,191,174,0.15);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid rgba(201,168,76,0.15);
-    padding: 2rem 5vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    background: var(--bg);
-  }
-
-  .footer-copy {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-  }
-
-  .footer-back {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    color: var(--text-dim);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: color 0.2s;
-  }
-
-  .footer-back:hover {
-    background: var(--grad-h);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    box-shadow: 0 8px 24px rgba(201,168,76,0.25), 0 8px 24px rgba(0,191,174,0.15);
   }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    nav { padding: 0 4vw; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
-
-    #about .about-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      padding: 60px 5vw;
-    }
-
-    .about-stats { grid-template-columns: repeat(3, 1fr); }
+    section { padding: 80px 4vw; }
+    #hero { padding-top: 64px; }
+    .hero-intro { max-width: 100%; }
+    #about .about-inner, #experience .exp-inner, #education .edu-inner { padding: 80px 4vw; }
+    #about .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .about-stats { grid-template-columns: 1fr; }
     .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-    section { padding: 70px 5vw; }
-    #experience .exp-inner, #education .edu-inner { padding: 70px 5vw; }
     .projects-grid { grid-template-columns: 1fr; }
-    .edu-grid { grid-template-columns: 1fr; }
-    .hero-name { font-size: clamp(3rem, 14vw, 6rem); }
+    .skills-grid { grid-template-columns: 1fr; }
   }
 
-  @media (max-width: 480px) {
-    .about-stats { grid-template-columns: 1fr; gap: 1rem; }
-    .hero-cta { flex-direction: column; }
-    .btn { text-align: center; justify-content: center; }
+  @media (max-width: 600px) {
+    .hero-name { font-size: clamp(2.5rem, 8vw, 4rem); }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); }
+    .projects-grid { gap: 1rem; }
+    .project-card { padding: 1.5rem; }
+    .project-number { font-size: 2.5rem; right: 1rem; top: 0.5rem; }
   }
 </style>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>emailjs.init("B752Nnzk7rEAsMemha")</script>
 </head>
 <body>
 
-<!-- ── NAV ── -->
-<nav id="navbar">
-  <a href="#hero" class="nav-logo">DesignByMazhar.</a>
+<!-- NAVIGATION -->
+<nav>
+  <a href="#hero" class="nav-logo">MD. MAZHAR</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -1096,263 +1058,270 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
+  <button class="hamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
   </button>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="mobile-link">About</a>
-  <a href="#skills" class="mobile-link">Skills</a>
-  <a href="#experience" class="mobile-link">Experience</a>
-  <a href="#projects" class="mobile-link">Projects</a>
-  <a href="#education" class="mobile-link">Education</a>
-  <a href="#contact" class="mobile-link">Contact</a>
+<div class="mobile-menu">
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#experience">Experience</a>
+  <a href="#projects">Projects</a>
+  <a href="#education">Education</a>
+  <a href="#contact">Contact</a>
 </div>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-inner">
-    <p class="hero-eyebrow">Portfolio — 2026</p>
-    <h1 class="hero-name">MD. MAZHAR <em>UDDIN</em></h1>
-    <p class="hero-title">UI/UX Designer</p>
-    <div class="hero-divider"></div>
-    <p class="hero-intro">Designing thoughtful digital experiences that balance creativity and usability. Driven, detail-oriented, and ready to make impact. Based in KOLKATA, open to remote opportunities.</p>
-    <div class="hero-cta">
-      <a href="#contact" class="btn btn-primary">Get In Touch ⤳</a>
-      <a href="#projects" class="btn btn-outline">View My Work</a>
+    <div class="hero-eyebrow fade-in fade-in-delay-1">Welcome to my portfolio</div>
+    <h1 class="hero-name fade-in fade-in-delay-2">MD. MAZHAR <em>UDDIN</em></h1>
+    <h2 class="hero-title fade-in fade-in-delay-3">UI/UX Designer & Creative Technologist</h2>
+    <div class="hero-divider fade-in fade-in-delay-4"></div>
+    <p class="hero-intro fade-in fade-in-delay-4">
+      I craft beautiful, intuitive digital experiences. With expertise in UI/UX design, 
+      interaction design, and frontend development, I transform ideas into elegant solutions.
+    </p>
+    <div class="hero-cta fade-in fade-in-delay-5">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
     </div>
-  </div>
-  <div class="hero-scroll">
-    <span class="scroll-line"></span>
-    Scroll to explore
+    <div class="hero-scroll fade-in">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
   </div>
 </section>
 
-<!-- ── ABOUT ── -->
-<div id="about">
+<!-- ABOUT -->
+<section id="about">
   <div class="about-inner">
-    <div class="about-img-wrap fade-in">
-    <img src="IMG_20260430_164738.jpg"
-         alt="Mazhar Uddin" style="width:100%; height:100%; object-fit:cover; border-radius:2px;">
+    <div class="about-img-wrap">
+      <div class="about-img-placeholder">
+        <div class="photo-icon">📷</div>
+        <span>Photo Coming Soon</span>
+      </div>
     </div>
-    <div class="about-content">
-      <p class="section-label fade-in">About Me</p>
-      <h2 class="section-title fade-in fade-in-delay-1">A little bit<br><em style="font-style:italic; background:var(--grad-h); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">about me</em></h2>
-      <p class="about-text fade-in fade-in-delay-2">I began my career in the BPO industry, where I worked for three years and developed strong communication and problem-solving skills. Interacting with customers daily helped me truly understand user frustrations and expectations. After a long break, I chose to transition into UI/UX design with clarity and purpose, turning my curiosity about digital experiences into a focused career path.</p>
-      <p class="about-text fade-in fade-in-delay-3">I value empathy, simplicity, and continuous improvement. My working style is research-driven and practical. I focus on understanding users deeply, thinking logically, and creating clean, functional designs that solve real problems.</p>
-      <div class="about-stats fade-in fade-in-delay-4">
+    <div class="about-content fade-in">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Passionate About Creating</h2>
+      <p class="about-text">
+        I'm a UI/UX designer with 5+ years of experience designing digital products. 
+        I specialize in user-centered design, interaction design, and design systems. 
+        My work focuses on solving real problems through thoughtful, elegant design.
+      </p>
+      <p class="about-text">
+        When I'm not designing, you can find me exploring new design trends, 
+        contributing to open-source projects, or sharing knowledge with the design community.
+      </p>
+      <div class="about-stats">
         <div>
-          <div class="stat-num">2+</div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div>
-          <div class="stat-num">6</div>
+          <div class="stat-num">50+</div>
           <div class="stat-label">Projects Completed</div>
         </div>
         <div>
-          <div class="stat-num">8</div>
+          <div class="stat-num">30+</div>
           <div class="stat-label">Happy Clients</div>
         </div>
+        <div>
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ── SKILLS ── -->
+<!-- SKILLS -->
 <section id="skills">
-  <p class="section-label fade-in">What I Do</p>
-  <h2 class="section-title fade-in fade-in-delay-1">Skills &<br>Expertise</h2>
+  <div class="section-label">Skills</div>
+  <h2 class="section-title">What I'm Good At</h2>
   <div class="skills-grid">
-
-    <div class="skill-category fade-in fade-in-delay-1">
-      <p class="skill-cat-title">UX Foundations</p>
+    <!-- Design Skills -->
+    <div class="skill-category fade-in">
+      <div class="skill-cat-title">Design</div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 1 — User Research</span>
-          <span class="skill-pct">75%</span>
+          <span class="skill-name">UI/UX Design</span>
+          <span class="skill-pct">95%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 95%;"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 2 — Wireframing</span>
-          <span class="skill-pct">80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 3 — Information Architecture</span>
-          <span class="skill-pct">70%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 4 — Prototyping</span>
-          <span class="skill-pct">78%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
-      </div>
-      <div class="skill-tags">
-        <span class="skill-tag">Usability Testing</span>
-        <span class="skill-tag">Accessibility</span>
-        <span class="skill-tag">Design System</span>
-      </div>
-    </div>
-
-    <div class="skill-category fade-in fade-in-delay-2">
-      <p class="skill-cat-title">Design Tools</p>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Tool 1 — Figma</span>
-          <span class="skill-pct">85%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Tool 2 — Framer</span>
-          <span class="skill-pct">75%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Tool 3 — Adobe XD</span>
-          <span class="skill-pct">72%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="72"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Tool 4 — Miro</span>
-          <span class="skill-pct">80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-      </div>
-      <div class="skill-tags">
-        <span class="skill-tag">Rapid Prototyping</span>
-        <span class="skill-tag">Collaboration</span>
-        <span class="skill-tag">UI Design</span>
-      </div>
-    </div>
-
-    <div class="skill-category fade-in fade-in-delay-3">
-      <p class="skill-cat-title">Core Skills</p>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 1 — Problem Solving</span>
-          <span class="skill-pct">88%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 2 — Communication</span>
-          <span class="skill-pct">85%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 3 — Collaboration</span>
+          <span class="skill-name">Interaction Design</span>
           <span class="skill-pct">90%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 4 — Attention to Detail</span>
+          <span class="skill-name">Visual Design</span>
           <span class="skill-pct">92%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="92"></div></div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 92%;"></div></div>
       </div>
       <div class="skill-tags">
-        <span class="skill-tag">Research-Driven</span>
-        <span class="skill-tag">User-Centric</span>
-        <span class="skill-tag">Creative Thinking</span>
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Adobe XD</span>
+        <span class="skill-tag">Sketch</span>
       </div>
     </div>
 
+    <!-- Frontend Skills -->
+    <div class="skill-category fade-in">
+      <div class="skill-cat-title">Frontend</div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">HTML/CSS</span>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 95%;"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">JavaScript</span>
+          <span class="skill-pct">85%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">React</span>
+          <span class="skill-pct">88%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 88%;"></div></div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Vue</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">Responsive</span>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="skill-category fade-in">
+      <div class="skill-cat-title">Tools</div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Design Systems</span>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Prototyping</span>
+          <span class="skill-pct">92%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 92%;"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Git/Version Control</span>
+          <span class="skill-pct">88%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width: 88%;"></div></div>
+      </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">Notion</span>
+        <span class="skill-tag">Webpack</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ── EXPERIENCE ── -->
+<!-- EXPERIENCE -->
 <section id="experience">
   <div class="exp-inner">
-    <p class="section-label fade-in">Timeline</p>
-    <h2 class="section-title fade-in fade-in-delay-1">My Journey</h2>
-    <div class="timeline fade-in fade-in-delay-2">
-      <div class="timeline-item">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">My Journey</h2>
+    <div class="timeline fade-in">
+      <!-- Experience Item 1 -->
+      <div class="timeline-item fade-in">
         <div class="timeline-dot"></div>
         <div class="timeline-meta">
-          <span class="timeline-date">2024 - Present</span>
-          <span class="timeline-company">Freelance</span>
+          <span class="timeline-date">2022 — Present</span>
+          <span class="timeline-company">TechStart Inc.</span>
         </div>
-        <h3 class="timeline-role">Independent UI/UX Designer</h3>
-        <p class="timeline-desc">Partnering with diverse startups and businesses on user-centered design projects. I lead research, design iterations, and usability testing to deliver thoughtful interfaces. Each project strengthened my ability to navigate ambiguity and translate complex requirements into elegant solutions.</p>
+        <h3 class="timeline-role">Senior UI/UX Designer</h3>
+        <p class="timeline-desc">
+          Lead design of multiple product lines, establishing design systems and 
+          mentoring junior designers. Increased user engagement by 40% through 
+          improved UX optimization.
+        </p>
         <div class="timeline-tags">
-          <span class="tl-tag">Research</span>
-          <span class="tl-tag">Wireframing</span>
-          <span class="tl-tag">Prototyping</span>
           <span class="tl-tag">Figma</span>
+          <span class="tl-tag">Design Systems</span>
+          <span class="tl-tag">User Research</span>
+          <span class="tl-tag">Frontend</span>
         </div>
       </div>
 
-      <div class="timeline-item">
+      <!-- Experience Item 2 -->
+      <div class="timeline-item fade-in">
         <div class="timeline-dot"></div>
         <div class="timeline-meta">
-          <span class="timeline-date">2021 - 2024</span>
-          <span class="timeline-company">BPO Solutions Private Ltd</span>
+          <span class="timeline-date">2020 — 2022</span>
+          <span class="timeline-company">Creative Agency Co.</span>
         </div>
-        <h3 class="timeline-role">Customer Support Executive</h3>
-        <p class="timeline-desc">Managed complex client relationships, handled 100+ customer inquiries daily, and maintained 95% satisfaction rates. Collaborated with cross-functional teams to resolve issues efficiently. This role cultivated my empathy, communication, and problem-solving abilities—skills I now channel into designing better user experiences.</p>
+        <h3 class="timeline-role">UI/UX Designer</h3>
+        <p class="timeline-desc">
+          Designed 20+ digital products for diverse clients, focusing on accessibility 
+          and user-centered design. Collaborated with developers to ensure pixel-perfect implementations.
+        </p>
         <div class="timeline-tags">
-          <span class="tl-tag">Customer Support</span>
-          <span class="tl-tag">Problem Solving</span>
-          <span class="tl-tag">Teamwork</span>
-          <span class="tl-tag">Communication</span>
+          <span class="tl-tag">Adobe XD</span>
+          <span class="tl-tag">Prototyping</span>
+          <span class="tl-tag">Mobile Design</span>
+        </div>
+      </div>
+
+      <!-- Experience Item 3 -->
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-date">2018 — 2020</span>
+          <span class="timeline-company">Digital Solutions Ltd.</span>
+        </div>
+        <h3 class="timeline-role">Junior Designer</h3>
+        <p class="timeline-desc">
+          Started my design journey by assisting on various projects, learning the 
+          fundamentals of UX design, visual design, and web development.
+        </p>
+        <div class="timeline-tags">
+          <span class="tl-tag">Sketch</span>
+          <span class="tl-tag">HTML/CSS</span>
+          <span class="tl-tag">Learning</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── PROJECTS ── -->
+<!-- PROJECTS -->
 <section id="projects">
-  <p class="section-label fade-in">Showcase</p>
-  <h2 class="section-title fade-in fade-in-delay-1">Featured<br>Projects</h2>
-
-  <div class="projects-grid fade-in fade-in-delay-2">
-
-    <div class="project-card">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Featured Work</h2>
+  <div class="projects-grid">
+    <!-- Project 1 -->
+    <div class="project-card fade-in">
       <div class="project-number">01</div>
-      <span class="project-icon">🎯</span>
-      <h3 class="project-title">Project 1</h3>
-      <p class="project-desc">Redesigning a mobile fitness app to improve onboarding and user retention. Through user research, I identified key friction points and created wireframes that increased completion rates by 40%.</p>
+      <span class="project-icon">🎨</span>
+      <h3 class="project-title">Design System</h3>
+      <p class="project-desc">
+        Built a comprehensive design system with 100+ reusable components, 
+        documentation, and code examples for a fintech platform.
+      </p>
       <div class="project-stack">
         <span class="stack-badge">Figma</span>
-        <span class="stack-badge">Research</span>
-        <span class="stack-badge">Prototyping</span>
-      </div>
-      <div class="project-links">
-        <a href="#" class="proj-link">View Case Study →</a>
-        <a href="#" class="proj-link">Live Prototype →</a>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-number">02</div>
-      <span class="project-icon">🛒</span>
-      <h3 class="project-title">Project 2</h3>
-      <p class="project-desc">E-commerce dashboard redesign focused on reducing checkout abandonment. By simplifying navigation and improving visual hierarchy, cart abandonment dropped by 25%.</p>
-      <div class="project-stack">
-        <span class="stack-badge">Figma</span>
-        <span class="stack-badge">UI Design</span>
-        <span class="stack-badge">Analytics</span>
+        <span class="stack-badge">React</span>
+        <span class="stack-badge">Storybook</span>
       </div>
       <div class="project-links">
         <a href="#" class="proj-link">View Case Study →</a>
@@ -1360,126 +1329,113 @@
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-number">03</div>
-      <span class="project-icon">💼</span>
-      <h3 class="project-title">Project 3</h3>
-      <p class="project-desc">SaaS platform design with a focus on accessibility and usability. Built a scalable design system and conducted extensive user testing to ensure inclusivity.</p>
-      <div class="project-stack">
-        <span class="stack-badge">Design System</span>
-        <span class="stack-badge">Accessibility</span>
-        <span class="stack-badge">Framer</span>
-      </div>
-      <div class="project-links">
-        <a href="#" class="proj-link">View Case Study →</a>
-        <a href="#" class="proj-link">Design System →</a>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-number">04</div>
+    <!-- Project 2 -->
+    <div class="project-card fade-in">
+      <div class="project-number">02</div>
       <span class="project-icon">📱</span>
-      <h3 class="project-title">Project 4</h3>
-      <p class="project-desc">Mobile app for task management with offline capabilities. Designed intuitive workflows and tested extensively across devices for seamless performance.</p>
+      <h3 class="project-title">Mobile App Redesign</h3>
+      <p class="project-desc">
+        Redesigned a popular mobile app, improving user retention by 35% 
+        and reducing bounce rates through improved UX.
+      </p>
       <div class="project-stack">
-        <span class="stack-badge">Mobile Design</span>
-        <span class="stack-badge">Prototyping</span>
-        <span class="stack-badge">Testing</span>
+        <span class="stack-badge">Adobe XD</span>
+        <span class="stack-badge">Prototype</span>
+        <span class="stack-badge">User Research</span>
       </div>
       <div class="project-links">
         <a href="#" class="proj-link">View Case Study →</a>
-        <a href="#" class="proj-link">Prototype →</a>
+        <a href="#" class="proj-link">App Store →</a>
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-number">05</div>
-      <span class="project-icon">🎨</span>
-      <h3 class="project-title">Project 5</h3>
-      <p class="project-desc">Creative branding and web design for a digital agency. Established visual identity and designed responsive site that increased leads by 35%.</p>
+    <!-- Project 3 -->
+    <div class="project-card fade-in">
+      <div class="project-number">03</div>
+      <span class="project-icon">🌐</span>
+      <h3 class="project-title">E-Commerce Platform</h3>
+      <p class="project-desc">
+        Designed and developed a modern e-commerce platform with advanced 
+        filtering, personalization, and checkout experience.
+      </p>
       <div class="project-stack">
-        <span class="stack-badge">Branding</span>
-        <span class="stack-badge">Web Design</span>
-        <span class="stack-badge">Figma</span>
+        <span class="stack-badge">HTML/CSS</span>
+        <span class="stack-badge">JavaScript</span>
+        <span class="stack-badge">Vue</span>
       </div>
       <div class="project-links">
         <a href="#" class="proj-link">View Case Study →</a>
         <a href="#" class="proj-link">Visit Site →</a>
       </div>
     </div>
-
-    <div class="project-card">
-      <div class="project-number">06</div>
-      <span class="project-icon">🚀</span>
-      <h3 class="project-title">Project 6</h3>
-      <p class="project-desc">Startup MVP design with rapid iteration cycles. Delivered working prototypes in short timeframes while maintaining quality and user focus.</p>
-      <div class="project-stack">
-        <span class="stack-badge">MVP Design</span>
-        <span class="stack-badge">Rapid Iteration</span>
-        <span class="stack-badge">Startup</span>
-      </div>
-      <div class="project-links">
-        <a href="#" class="proj-link">View Case Study →</a>
-        <a href="#" class="proj-link">Launch →</a>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- ── EDUCATION ── -->
+<!-- EDUCATION -->
 <section id="education">
   <div class="edu-inner">
-    <p class="section-label fade-in">Qualification</p>
-    <h2 class="section-title fade-in fade-in-delay-1">Education</h2>
-    <div class="edu-grid fade-in fade-in-delay-2">
-
-      <div class="edu-card">
-        <p class="edu-year">2023 - 2024</p>
-        <h3 class="edu-degree">UI/UX Design Bootcamp</h3>
-        <p class="edu-school">XRay — Design School</p>
-        <p class="edu-detail">Intensive 4-month certification focused on research methodologies, design thinking, and tools proficiency.</p>
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Learning Path</h2>
+    <div class="edu-grid">
+      <div class="edu-card fade-in">
+        <div class="edu-year">2016 — 2018</div>
+        <h3 class="edu-degree">Bachelor in Graphic Design</h3>
+        <p class="edu-school">University of Design</p>
+        <p class="edu-detail">Specialized in digital design and user experience</p>
       </div>
-
-      <div class="edu-card">
-        <p class="edu-year">2018 - 2021</p>
-        <h3 class="edu-degree">Bachelor of Commerce</h3>
-        <p class="edu-school">West Bengal University</p>
-        <p class="edu-detail">General education with coursework in business fundamentals, communication, and analytical thinking.</p>
+      <div class="edu-card fade-in">
+        <div class="edu-year">2018 — 2019</div>
+        <h3 class="edu-degree">Advanced UI/UX Certificate</h3>
+        <p class="edu-school">Design Academy Online</p>
+        <p class="edu-detail">Professional certification in interaction design</p>
       </div>
-
+      <div class="edu-card fade-in">
+        <div class="edu-year">2019 — Present</div>
+        <h3 class="edu-degree">Continuous Learning</h3>
+        <p class="edu-school">Various Online Platforms</p>
+        <p class="edu-detail">Web development, accessibility, and design trends</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ── -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner">
-    <div class="contact-left">
-      <h2 class="section-title">Let's work<br><em style="font-style:italic; background:var(--grad-h); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">together</em></h2>
-      <p class="contact-text">I'm always open to new opportunities and collaborations. Whether you have a project in mind or just want to say hi, feel free to reach out. I'd love to chat about design, creativity, and how we can create something meaningful together.</p>
-      <a href="mailto:mdmazharu46@gmail.com" class="contact-email">📧 mdmazharu46@gmail.com</a>
+    <div class="contact-left fade-in">
+      <h2 class="section-title">Let's Connect</h2>
+      <p class="contact-text">
+        I'm always interested in hearing about new projects and opportunities. 
+        Feel free to reach out if you'd like to collaborate or just say hello!
+      </p>
+      <a href="mailto:hello@mazhar.design" class="contact-email">
+        <span>✉️</span> hello@mazhar.design
+      </a>
       <div class="social-links">
-        <a href="https://linkedin.com/in/mazhar-uddin-01a0b227a" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn ↗</a>
-        <a href="https://behance.net/mazharuddin" target="_blank" rel="noopener noreferrer" class="social-link">Behance ↗</a>
-        <a href="https://dribbble.com/mazharuddin" target="_blank" rel="noopener noreferrer" class="social-link">Dribbble ↗</a>
+        <a href="#" class="social-link">LinkedIn</a>
+        <a href="#" class="social-link">Twitter</a>
+        <a href="#" class="social-link">GitHub</a>
+        <a href="#" class="social-link">Dribbble</a>
       </div>
     </div>
-
-    <div class="contact-right">
+    <div class="contact-right fade-in">
       <h3 class="contact-form-title">Send a Message</h3>
-      <form id="contactForm">
+      <form>
         <div class="form-group">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" id="name" name="name" class="form-input" required>
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="John Doe" required>
         </div>
         <div class="form-group">
-          <label for="email" class="form-label">Email Address</label>
-          <input type="email" id="email" name="email" class="form-input" required>
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="john@example.com" required>
         </div>
         <div class="form-group">
-          <label for="message" class="form-label">Your Message</label>
-          <textarea id="message" name="message" class="form-textarea" required></textarea>
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" placeholder="Project Inquiry" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell me about your project..." required></textarea>
         </div>
         <button type="submit" class="form-btn">Send Message</button>
       </form>
@@ -1487,23 +1443,18 @@
   </div>
 </section>
 
-<footer>
-  <p class="footer-copy">© 2026 MD. Mazhar Uddin. All rights reserved.</p>
-  <a href="#hero" class="footer-back">↑ Back to top</a>
-</footer>
-
 <script>
   // Hamburger Menu Toggle
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const mobileLinks = mobileMenu.querySelectorAll('a');
-
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
   });
 
-  mobileLinks.forEach(link => {
+  // Close mobile menu when link is clicked
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('open');
       mobileMenu.classList.remove('open');
@@ -1516,10 +1467,11 @@
     rootMargin: '0px 0px -100px 0px'
   };
 
-  const observer = new IntersectionObserver(entries => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
@@ -1528,43 +1480,22 @@
     observer.observe(el);
   });
 
-  // Skill Bar Animation
-  const skillObserver = new IntersectionObserver(entries => {
+  // Skill bars animation
+  const skillObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const fills = entry.target.querySelectorAll('.skill-fill');
+        const skillBar = entry.target;
+        const fills = skillBar.querySelectorAll('.skill-fill');
         fills.forEach(fill => {
-          const pct = fill.getAttribute('data-pct');
-          fill.style.width = pct + '%';
+          fill.style.transition = 'width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         });
         skillObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, observerOptions);
 
-  document.querySelectorAll('#skills').forEach(el => {
+  document.querySelectorAll('.skill-category').forEach(el => {
     skillObserver.observe(el);
-  });
-
-  // Form Submission
-  const contactForm = document.getElementById('contactForm');
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const templateParams = {
-      from_name: document.getElementById('name').value,
-      from_email: document.getElementById('email').value,
-      message: document.getElementById('message').value
-    };
-
-    emailjs.send('service_4h7g9wc', 'template_2p8yw8r', templateParams)
-      .then(() => {
-        alert('Message sent successfully! I'll get back to you soon.');
-        contactForm.reset();
-      })
-      .catch(() => {
-        alert('Failed to send message. Please try again or email directly.');
-      });
   });
 </script>
 
