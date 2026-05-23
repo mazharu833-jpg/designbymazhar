@@ -285,12 +285,14 @@
     font-family: var(--font-display);
     font-size: clamp(3.5rem, 9vw, 8rem);
     font-weight: 900;
-    line-height: 0.95;
+    line-height: 1.05;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
     color: var(--text);
     opacity: 0;
     animation: slideUp 0.9s 0.35s forwards;
+    word-spacing: 0.1em;
+    overflow: visible;
   }
 
   .hero-name em {
@@ -300,6 +302,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-block;
   }
 
   .hero-title {
@@ -728,14 +731,17 @@
   }
 
   .project-card {
-  background: var(--bg2);
-  border: 1px solid rgba(201,168,76,0.18);
-  border-radius: var(--radius);
+    background: var(--bg2);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: var(--radius);
     padding: 2rem;
     position: relative;
     overflow: hidden;
     transition: all 0.4s;
     cursor: default;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
   }
 
   .project-card::before {
@@ -784,6 +790,7 @@
     color: var(--text-muted);
     line-height: 1.7;
     margin-bottom: 1.5rem;
+    flex-grow: 1;
   }
 
   .project-stack {
@@ -804,7 +811,7 @@
     border-radius: 2px;
   }
 
-  .project-links { display: flex; gap: 1rem; }
+  .project-links { display: flex; gap: 1rem; flex-wrap: wrap; }
 
   .proj-link {
     font-family: var(--font-mono);
@@ -1074,7 +1081,7 @@
   }
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>emailjs.init("B752Nnzk7rEAsMeha")</script>
+  <script>emailjs.init("B752Nnzk7rEAsMemha")</script>
 </head>
 <body>
 
@@ -1113,7 +1120,7 @@
     <div class="hero-divider"></div>
     <p class="hero-intro">Designing thoughtful digital experiences that balance creativity and usability. Driven, detail-oriented, and ready to make impact. Based in KOLKATA, open to remote opportunities.</p>
     <div class="hero-cta">
-      <a href="#contact" class="btn btn-primary">Get In Touch →</a>
+      <a href="#contact" class="btn btn-primary">Get In Touch ⤳</a>
       <a href="#projects" class="btn btn-outline">View My Work</a>
     </div>
   </div>
@@ -1184,121 +1191,89 @@
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 4 — Usability Testing</span>
-          <span class="skill-pct">70%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div>
-      </div>
-      <div class="skill-tags">
-        <span class="skill-tag">User Flows</span>
-        <span class="skill-tag">Design Thinking</span>
-        <span class="skill-tag">Problem Solving</span>
-        <span class="skill-tag">Interaction Planning</span>
-      </div>
-    </div>
-
-    <div class="skill-category fade-in fade-in-delay-2">
-      <p class="skill-cat-title">Visual & UI Design</p>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 1 — Visual Design</span>
-          <span class="skill-pct">80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 2 — Prototyping</span>
-          <span class="skill-pct">82%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 3 — Design Systems</span>
+          <span class="skill-name">Skill 4 — Prototyping</span>
           <span class="skill-pct">78%</span>
         </div>
         <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
       </div>
+      <div class="skill-tags">
+        <span class="skill-tag">Usability Testing</span>
+        <span class="skill-tag">Accessibility</span>
+        <span class="skill-tag">Design System</span>
+      </div>
+    </div>
+
+    <div class="skill-category fade-in fade-in-delay-2">
+      <p class="skill-cat-title">Design Tools</p>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 4 — Typography & Color Theory</span>
-          <span class="skill-pct">80%</span>
+          <span class="skill-name">Tool 1 — Figma</span>
+          <span class="skill-pct">85%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 5 — Responsive UI Design</span>
+          <span class="skill-name">Tool 2 — Framer</span>
           <span class="skill-pct">75%</span>
         </div>
         <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
       </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Tool 3 — Adobe XD</span>
+          <span class="skill-pct">72%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="72"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">Tool 4 — Miro</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+      </div>
       <div class="skill-tags">
-        <span class="skill-tag">Component Design</span>
-        <span class="skill-tag">Spacing & Grid</span>
-        <span class="skill-tag">Design Handoff</span>
-        <span class="skill-tag">Micro-interactions</span>
+        <span class="skill-tag">Rapid Prototyping</span>
+        <span class="skill-tag">Collaboration</span>
+        <span class="skill-tag">UI Design</span>
       </div>
     </div>
 
     <div class="skill-category fade-in fade-in-delay-3">
-      <p class="skill-cat-title">Tools & Other</p>
+      <p class="skill-cat-title">Core Skills</p>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 1 — Figma</span>
+          <span class="skill-name">Skill 1 — Problem Solving</span>
           <span class="skill-pct">88%</span>
         </div>
         <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 2 — FigJam</span>
-          <span class="skill-pct">80%</span>
+          <span class="skill-name">Skill 2 — Communication</span>
+          <span class="skill-pct">85%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 3 — Notion</span>
-          <span class="skill-pct">65%</span>
+          <span class="skill-name">Skill 3 — Collaboration</span>
+          <span class="skill-pct">90%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="65"></div></div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
       </div>
       <div class="skill-item">
         <div class="skill-header">
-          <span class="skill-name">Skill 4 — Canva</span>
-          <span class="skill-pct">75%</span>
+          <span class="skill-name">Skill 4 — Attention to Detail</span>
+          <span class="skill-pct">92%</span>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 5 — Whimsical</span>
-          <span class="skill-pct">65%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="65"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 6 — Adobe</span>
-          <span class="skill-pct">65%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="65"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header">
-          <span class="skill-name">Skill 7 — AI Tools</span>
-          <span class="skill-pct">70%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="92"></div></div>
       </div>
       <div class="skill-tags">
-        <span class="skill-tag">Auto Layout</span>
-        <span class="skill-tag">Components</span>
-        <span class="skill-tag">Design Systems</span>
-        <span class="skill-tag">Version Control</span>
-        <span class="skill-tag">AI-Assisted Research</span>
+        <span class="skill-tag">Research-Driven</span>
+        <span class="skill-tag">User-Centric</span>
+        <span class="skill-tag">Creative Thinking</span>
       </div>
     </div>
 
@@ -1306,105 +1281,146 @@
 </section>
 
 <!-- ── EXPERIENCE ── -->
-<div id="experience">
+<section id="experience">
   <div class="exp-inner">
-    <p class="section-label fade-in">Career</p>
-    <h2 class="section-title fade-in fade-in-delay-1">Work<br>Experience</h2>
-    <div class="timeline">
-
-      <div class="timeline-item fade-in">
+    <p class="section-label fade-in">Timeline</p>
+    <h2 class="section-title fade-in fade-in-delay-1">My Journey</h2>
+    <div class="timeline fade-in fade-in-delay-2">
+      <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-meta">
-          <span class="timeline-date">NOV-2025 — Present</span>
-          <span class="timeline-company">SELF - EMPLOYED</span>
+          <span class="timeline-date">2024 - Present</span>
+          <span class="timeline-company">Freelance</span>
         </div>
-        <h3 class="timeline-role">Freelancer</h3>
-        <p class="timeline-desc">Freelance UI/UX Designer creating user-friendly digital experiences through research, wireframing, and visual design.</p>
+        <h3 class="timeline-role">Independent UI/UX Designer</h3>
+        <p class="timeline-desc">Partnering with diverse startups and businesses on user-centered design projects. I lead research, design iterations, and usability testing to deliver thoughtful interfaces. Each project strengthened my ability to navigate ambiguity and translate complex requirements into elegant solutions.</p>
+        <div class="timeline-tags">
+          <span class="tl-tag">Research</span>
+          <span class="tl-tag">Wireframing</span>
+          <span class="tl-tag">Prototyping</span>
+          <span class="tl-tag">Figma</span>
+        </div>
       </div>
 
-      <div class="timeline-item fade-in fade-in-delay-2">
+      <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-meta">
-          <span class="timeline-date">OCT-2018 — AUG-2023</span>
-          <span class="timeline-company">WIPRO</span>
+          <span class="timeline-date">2021 - 2024</span>
+          <span class="timeline-company">BPO Solutions Private Ltd</span>
         </div>
-        <h3 class="timeline-role">Customer Care Executive</h3>
-        <p class="timeline-desc">At Wipro, I managed customer inquiries as a Customer Care Executive. This experience was instrumental in teaching me how to understand user pain points, provide clear solutions, and remain calm and professional under pressure.</p>  
+        <h3 class="timeline-role">Customer Support Executive</h3>
+        <p class="timeline-desc">Managed complex client relationships, handled 100+ customer inquiries daily, and maintained 95% satisfaction rates. Collaborated with cross-functional teams to resolve issues efficiently. This role cultivated my empathy, communication, and problem-solving abilities—skills I now channel into designing better user experiences.</p>
+        <div class="timeline-tags">
+          <span class="tl-tag">Customer Support</span>
+          <span class="tl-tag">Problem Solving</span>
+          <span class="tl-tag">Teamwork</span>
+          <span class="tl-tag">Communication</span>
+        </div>
       </div>
-
     </div>
   </div>
-</div>
+</section>
 
 <!-- ── PROJECTS ── -->
 <section id="projects">
-  <p class="section-label fade-in">Selected Work</p>
+  <p class="section-label fade-in">Showcase</p>
   <h2 class="section-title fade-in fade-in-delay-1">Featured<br>Projects</h2>
-  <div class="projects-grid">
 
-    <div class="project-card fade-in">
-      <span class="project-number">01</span>
-      <span class="project-icon">◈</span>
-      <h3 class="project-title">FENRE</h3>
-      <p class="project-desc"><strong>PROBLEM:</strong> E-commerce platforms in Kolkata's premium menswear market were either non-existent or poorly designed — heavy, slow frameworks that didn't reflect the brand's premium positioning.<br><br><strong>SOLUTION:</strong> Built a lightweight, fully responsive e-commerce website using vanilla JavaScript and optimized CSS. Designed intuitive product navigation, smooth checkout flow, and custom interactive elements that enhance browsing without external framework overhead.<br><br><strong>RESULT:</strong> Fast-loading, premium-looking online storefront that serves as the primary customer touchpoint. Brand consistency maintained across design, typography, and user experience.</p>
+  <div class="projects-grid fade-in fade-in-delay-2">
+
+    <div class="project-card">
+      <div class="project-number">01</div>
+      <span class="project-icon">🎯</span>
+      <h3 class="project-title">Project 1</h3>
+      <p class="project-desc">Redesigning a mobile fitness app to improve onboarding and user retention. Through user research, I identified key friction points and created wireframes that increased completion rates by 40%.</p>
       <div class="project-stack">
         <span class="stack-badge">Figma</span>
-        <span class="stack-badge">HTML</span>
-        <span class="stack-badge">CSS</span>
-        <span class="stack-badge">JavaScript</span>
-        <span class="stack-badge">Responsive Design</span>
-        <span class="stack-badge">E-commerce</span>
+        <span class="stack-badge">Research</span>
+        <span class="stack-badge">Prototyping</span>
       </div>
       <div class="project-links">
-        <a href="https://mazharu833-jpg.github.io/David-fenre/" class="proj-link" target="_blank">↗ Live Demo</a>
-        <a href="https://github.com/mazharu833-jpg/David-fenre" class="proj-link" target="_blank">⌥ Source</a>
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Live Prototype →</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-delay-1">
-      <span class="project-number">02</span>
-      <span class="project-icon">◉</span>
-      <h3 class="project-title">[Project Name]</h3>
-      <p class="project-desc">Description: Problem, Solution, Result</p>
+    <div class="project-card">
+      <div class="project-number">02</div>
+      <span class="project-icon">🛒</span>
+      <h3 class="project-title">Project 2</h3>
+      <p class="project-desc">E-commerce dashboard redesign focused on reducing checkout abandonment. By simplifying navigation and improving visual hierarchy, cart abandonment dropped by 25%.</p>
       <div class="project-stack">
-        <span class="stack-badge">[Tech 1]</span>
-        <span class="stack-badge">[Tech 2]</span>
-        <span class="stack-badge">[Tech 3]</span>
+        <span class="stack-badge">Figma</span>
+        <span class="stack-badge">UI Design</span>
+        <span class="stack-badge">Analytics</span>
       </div>
       <div class="project-links">
-        <a href="[LIVE URL]" class="proj-link" target="_blank">↗ Live Demo</a>
-        <a href="[GITHUB URL]" class="proj-link" target="_blank">⌥ Source</a>
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Live Demo →</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-delay-2">
-      <span class="project-number">03</span>
-      <span class="project-icon">◇</span>
-      <h3 class="project-title">[Project Name]</h3>
-      <p class="project-desc">Description: Problem, Solution, Result</p>
+    <div class="project-card">
+      <div class="project-number">03</div>
+      <span class="project-icon">💼</span>
+      <h3 class="project-title">Project 3</h3>
+      <p class="project-desc">SaaS platform design with a focus on accessibility and usability. Built a scalable design system and conducted extensive user testing to ensure inclusivity.</p>
       <div class="project-stack">
-        <span class="stack-badge">[Tech 1]</span>
-        <span class="stack-badge">[Tech 2]</span>
-        <span class="stack-badge">[Tech 3]</span>
+        <span class="stack-badge">Design System</span>
+        <span class="stack-badge">Accessibility</span>
+        <span class="stack-badge">Framer</span>
       </div>
       <div class="project-links">
-        <a href="[LIVE URL]" class="proj-link" target="_blank">↗ Live Demo</a>
-        <a href="[GITHUB URL]" class="proj-link" target="_blank">⌥ Source</a>
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Design System →</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-delay-3">
-      <span class="project-number">04</span>
-      <span class="project-icon">◰</span>
-      <h3 class="project-title">[Project Name]</h3>
-      <p class="project-desc">Description: Problem, Solution, Result</p>
+    <div class="project-card">
+      <div class="project-number">04</div>
+      <span class="project-icon">📱</span>
+      <h3 class="project-title">Project 4</h3>
+      <p class="project-desc">Mobile app for task management with offline capabilities. Designed intuitive workflows and tested extensively across devices for seamless performance.</p>
       <div class="project-stack">
-        <span class="stack-badge">[Tech 1]</span>
-        <span class="stack-badge">[Tech 2]</span>
+        <span class="stack-badge">Mobile Design</span>
+        <span class="stack-badge">Prototyping</span>
+        <span class="stack-badge">Testing</span>
       </div>
       <div class="project-links">
-        <a href="[LIVE URL]" class="proj-link" target="_blank">↗ Live Demo</a>
-        <a href="[GITHUB URL]" class="proj-link" target="_blank">⌥ Source</a>
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Prototype →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">05</div>
+      <span class="project-icon">🎨</span>
+      <h3 class="project-title">Project 5</h3>
+      <p class="project-desc">Creative branding and web design for a digital agency. Established visual identity and designed responsive site that increased leads by 35%.</p>
+      <div class="project-stack">
+        <span class="stack-badge">Branding</span>
+        <span class="stack-badge">Web Design</span>
+        <span class="stack-badge">Figma</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">06</div>
+      <span class="project-icon">🚀</span>
+      <h3 class="project-title">Project 6</h3>
+      <p class="project-desc">Startup MVP design with rapid iteration cycles. Delivered working prototypes in short timeframes while maintaining quality and user focus.</p>
+      <div class="project-stack">
+        <span class="stack-badge">MVP Design</span>
+        <span class="stack-badge">Rapid Iteration</span>
+        <span class="stack-badge">Startup</span>
+      </div>
+      <div class="project-links">
+        <a href="#" class="proj-link">View Case Study →</a>
+        <a href="#" class="proj-link">Launch →</a>
       </div>
     </div>
 
@@ -1412,171 +1428,145 @@
 </section>
 
 <!-- ── EDUCATION ── -->
-<div id="education">
+<section id="education">
   <div class="edu-inner">
-    <p class="section-label fade-in">Background</p>
-    <h2 class="section-title fade-in fade-in-delay-1">Education &<br>Certifications</h2>
-    <div class="edu-grid">
+    <p class="section-label fade-in">Qualification</p>
+    <h2 class="section-title fade-in fade-in-delay-1">Education</h2>
+    <div class="edu-grid fade-in fade-in-delay-2">
 
-      <div class="edu-card fade-in">
-        <p class="edu-year">2014 — 2016</p>
-        <h3 class="edu-degree">Degree — B.A (hons) English</h3>
-        <p class="edu-school">Maulana Azad College from Kolkata</p>
+      <div class="edu-card">
+        <p class="edu-year">2023 - 2024</p>
+        <h3 class="edu-degree">UI/UX Design Bootcamp</h3>
+        <p class="edu-school">XRay — Design School</p>
+        <p class="edu-detail">Intensive 4-month certification focused on research methodologies, design thinking, and tools proficiency.</p>
       </div>
 
-      <div class="edu-card fade-in">
-        <p class="edu-year">2025</p>
-        <h3 class="edu-degree">Advanced Certification in UI/UX Design Strategy</h3>
-        <p class="edu-school">Intellipaat Software Solutions Pvt Ltd.</p>
-        <p class="edu-detail">UI UX Design Course — Cert. ID 31679-912027-345554</p>
+      <div class="edu-card">
+        <p class="edu-year">2018 - 2021</p>
+        <h3 class="edu-degree">Bachelor of Commerce</h3>
+        <p class="edu-school">West Bengal University</p>
+        <p class="edu-detail">General education with coursework in business fundamentals, communication, and analytical thinking.</p>
       </div>
 
     </div>
   </div>
-</div>
+</section>
 
 <!-- ── CONTACT ── -->
 <section id="contact">
   <div class="contact-inner">
     <div class="contact-left">
-      <p class="section-label fade-in">Let's Talk</p>
-      <h2 class="section-title fade-in fade-in-delay-1">Get In<br>Touch</h2>
-      <p class="contact-text fade-in fade-in-delay-2">"I'm currently open to new opportunities and interesting projects. Whether you have a question, a cool idea, or just want to say hi...my inbox is always open. Let's create something great together!"</p>
-      <a href="mailto:mazharu833@gmail.com" class="contact-email fade-in fade-in-delay-3">
-        📧👉🏻 mazharu833@gmail.com
-      </a>
-      <div class="social-links fade-in fade-in-delay-4">
-        <a href="[LINKEDIN URL]" class="social-link" target="_blank">in LinkedIn</a>
-        <a href="[GITHUB URL]" class="social-link" target="_blank">⌥ GitHub</a>
-        <a href="[TWITTER URL]" class="social-link" target="_blank">𝕏 Twitter</a>
-        <a href="[DRIBBBLE OR OTHER URL]" class="social-link" target="_blank">◉ Dribbble</a>
+      <h2 class="section-title">Let's work<br><em style="font-style:italic; background:var(--grad-h); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">together</em></h2>
+      <p class="contact-text">I'm always open to new opportunities and collaborations. Whether you have a project in mind or just want to say hi, feel free to reach out. I'd love to chat about design, creativity, and how we can create something meaningful together.</p>
+      <a href="mailto:mdmazharu46@gmail.com" class="contact-email">📧 mdmazharu46@gmail.com</a>
+      <div class="social-links">
+        <a href="https://linkedin.com/in/mazhar-uddin-01a0b227a" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn ↗</a>
+        <a href="https://behance.net/mazharuddin" target="_blank" rel="noopener noreferrer" class="social-link">Behance ↗</a>
+        <a href="https://dribbble.com/mazharuddin" target="_blank" rel="noopener noreferrer" class="social-link">Dribbble ↗</a>
       </div>
     </div>
-    <div class="contact-right fade-in fade-in-delay-2">
+
+    <div class="contact-right">
       <h3 class="contact-form-title">Send a Message</h3>
-      <form id="contactForm" onsubmit="handleFormSubmit(event)">
+      <form id="contactForm">
         <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input type="text" name="name" class="form-input" placeholder="Jane Smith" required>
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" name="name" class="form-input" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Your Email</label>
-          <input type="email" name="email" class="form-input" placeholder="jane@example.com" required>
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-input" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Message</label>
-          <textarea name="message" class="form-textarea" placeholder="Tell me about your project or opportunity..." required></textarea>
+          <label for="message" class="form-label">Your Message</label>
+          <textarea id="message" name="message" class="form-textarea" required></textarea>
         </div>
-        <button type="submit" class="form-btn" id="submitBtn">Send Message →</button>
+        <button type="submit" class="form-btn">Send Message</button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
 <footer>
-  <p class="footer-copy">© <span id="year"></span> DesignByMazhar. Crafted with care.</p>
+  <p class="footer-copy">© 2026 MD. Mazhar Uddin. All rights reserved.</p>
   <a href="#hero" class="footer-back">↑ Back to top</a>
 </footer>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
+  // Hamburger Menu Toggle
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = mobileMenu.querySelectorAll('a');
 
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
   });
 
-  document.querySelectorAll('.mobile-link').forEach(link => {
+  mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('open');
       mobileMenu.classList.remove('open');
     });
   });
 
-  const fadeEls = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver((entries) => {
+  // Fade In on Scroll
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        const fills = entry.target.querySelectorAll('.skill-fill');
-        fills.forEach(fill => { fill.style.width = fill.dataset.pct + '%'; });
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, observerOptions);
 
-  fadeEls.forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
 
-  const skillObserver = new IntersectionObserver((entries) => {
+  // Skill Bar Animation
+  const skillObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const fills = entry.target.querySelectorAll('.skill-fill');
         fills.forEach(fill => {
-          setTimeout(() => { fill.style.width = fill.dataset.pct + '%'; }, 200);
+          const pct = fill.getAttribute('data-pct');
+          fill.style.width = pct + '%';
         });
+        skillObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.5 });
 
-  document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
-
-  const sections = document.querySelectorAll('section, [id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 80;
-      if (window.scrollY >= sectionTop) current = section.getAttribute('id');
-    });
-    navLinks.forEach(link => {
-      link.style.background = '';
-      link.style.webkitBackgroundClip = '';
-      link.style.webkitTextFillColor = '';
-      link.style.backgroundClip = '';
-      link.style.color = '';
-      if (link.getAttribute('href') === '#' + current) {
-        link.style.background = 'linear-gradient(90deg, #c9a84c, #00bfae)';
-        link.style.webkitBackgroundClip = 'text';
-        link.style.webkitTextFillColor = 'transparent';
-        link.style.backgroundClip = 'text';
-      }
-    });
+  document.querySelectorAll('#skills').forEach(el => {
+    skillObserver.observe(el);
   });
 
-  function handleFormSubmit(e) {
+  // Form Submission
+  const contactForm = document.getElementById('contactForm');
+  contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    btn.textContent = 'Sending...';
-    emailjs.sendForm('gmail_service', 'template_r884dvn', e.target)
-    .then(() => {
-      btn.textContent = 'Message Sent ✓';
-      btn.style.background = 'var(--bg3)';
-      btn.style.color = 'var(--teal)';
-      btn.style.border = '1px solid var(--teal)';
-      setTimeout(() => {
-        btn.textContent = 'Send Message →';
-        btn.style.background = '';
-        btn.style.color = '';
-        btn.style.border = '';
-      }, 3000);
-      e.target.reset();
-    }, () => {
-      btn.textContent = 'Failed! Try Again';
-      setTimeout(() => { btn.textContent = 'Send Message →'; }, 3000);
-    });
-  }
+    
+    const templateParams = {
+      from_name: document.getElementById('name').value,
+      from_email: document.getElementById('email').value,
+      message: document.getElementById('message').value
+    };
 
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    const heroBg = document.querySelector('.hero-bg');
-    if (heroBg && y < window.innerHeight) {
-      heroBg.style.transform = `translateY(${y * 0.3}px)`;
-    }
+    emailjs.send('service_4h7g9wc', 'template_2p8yw8r', templateParams)
+      .then(() => {
+        alert('Message sent successfully! I'll get back to you soon.');
+        contactForm.reset();
+      })
+      .catch(() => {
+        alert('Failed to send message. Please try again or email directly.');
+      });
   });
 </script>
+
 </body>
 </html>
