@@ -11,7 +11,7 @@
 <style>
 /* ════════════════════════════════════════════════
    SYNAPSE DESIGN SYSTEM — MAZHAR PORTFOLIO v3
-   + LightRays WebGL  +  3D Flip Cards (TiltedCard)
+   FIXED + FULLY RESPONSIVE
 ════════════════════════════════════════════════ */
 
 :root {
@@ -141,7 +141,10 @@ nav {
 .mobile-menu a {
   font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
   color:var(--text-muted); text-decoration:none; transition:color .2s;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--white5);
 }
+.mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu a:hover { color:var(--text); }
 
 /* ── HERO ── */
@@ -157,7 +160,7 @@ nav {
     radial-gradient(ellipse 60% 50% at 50% -5%, rgba(139,92,246,0.28) 0%, transparent 70%),
     radial-gradient(ellipse 40% 40% at 10% 50%, rgba(6,182,212,0.08) 0%, transparent 60%);
 }
-.hero-inner { position:relative; z-index:2; max-width:900px; margin:0 auto; }
+.hero-inner { position:relative; z-index:2; max-width:900px; margin:0 auto; width:100%; }
 
 .hero-eyebrow {
   display:inline-flex; align-items:center; gap:.5rem;
@@ -168,19 +171,25 @@ nav {
 .hero-eyebrow::before,.hero-eyebrow::after {
   content:''; width:30px; height:1px; background:var(--white15);
 }
+
+/* ── FIX: Hero name — prevent shimmer "N" cutoff ── */
 .hero-name {
   font-family:var(--font-serif);
-  font-size:clamp(3.5rem,9vw,8rem);
-  font-weight:400; line-height:.95; letter-spacing:-.03em;
+  font-size:clamp(3rem,8.5vw,8rem);
+  font-weight:400; line-height:1.05; letter-spacing:-.02em;
   color:var(--text); margin-bottom:.5rem;
   opacity:0; animation:fade-up .9s .25s var(--ease-snap) forwards;
+  overflow: visible;                 /* ← was clipping the N */
 }
 .shimmer-word {
+  display: inline-block;            /* ← needed for padding to work */
+  padding-right: 0.08em;            /* ← prevents right edge clip */
   background:linear-gradient(90deg,#a78bfa 0%,#ffffff 40%,#ffffff 60%,#22d3ee 100%);
   background-size:200%;
   -webkit-background-clip:text; -webkit-text-fill-color:transparent;
   background-clip:text;
   animation:shimmer 4s 1.5s linear infinite;
+  overflow: visible;
 }
 @keyframes shimmer {
   0%  { background-position:200% center; }
@@ -188,7 +197,7 @@ nav {
 }
 .hero-title {
   font-family:var(--font-serif); font-style:italic;
-  font-size:clamp(1.1rem,2.5vw,1.6rem); color:var(--text-dim);
+  font-size:clamp(1rem,2.2vw,1.6rem); color:var(--text-dim);
   margin-bottom:1.5rem;
   opacity:0; animation:fade-up .9s .4s var(--ease-snap) forwards;
 }
@@ -200,7 +209,7 @@ nav {
 }
 .hero-intro {
   max-width:520px; margin:0 auto 2.5rem;
-  font-size:1rem; color:var(--text-muted); line-height:1.8;
+  font-size:clamp(.85rem,2vw,1rem); color:var(--text-muted); line-height:1.8;
   opacity:0; animation:fade-up .9s .6s var(--ease-snap) forwards;
 }
 .hero-cta {
@@ -279,7 +288,7 @@ nav {
 }
 .section-label::after { content:''; width:40px; height:1px; background:var(--violet-dim); }
 .section-title {
-  font-family:var(--font-serif); font-size:clamp(2rem,4vw,3rem);
+  font-family:var(--font-serif); font-size:clamp(1.8rem,3.5vw,3rem);
   font-weight:400; line-height:1.1; margin-bottom:3rem; color:var(--text);
 }
 .section-title em {
@@ -325,7 +334,7 @@ nav {
 
 /* ── SKILLS ── */
 .skills-grid {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:1px; background:var(--white5); border:1px solid var(--white5);
   border-radius:1.5rem; overflow:hidden;
 }
@@ -378,15 +387,14 @@ nav {
 .timeline-desc { font-size:.9rem; color:var(--text-muted); line-height:1.8; max-width:560px; }
 
 /* ══════════════════════════════════════════
-   PROJECT FLIP CARDS  (TiltedCard system)
+   PROJECT FLIP CARDS — FIXED + RESPONSIVE
 ══════════════════════════════════════════ */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
-/* Outer wrapper — receives the 3D tilt transform */
 .project-card-wrap {
   height: 460px;
   perspective: 900px;
@@ -394,7 +402,6 @@ nav {
   position: relative;
 }
 
-/* Middle layer — flips on click */
 .card-inner {
   width: 100%; height: 100%;
   transform-style: preserve-3d;
@@ -404,7 +411,6 @@ nav {
 }
 .card-inner.flipped { transform: rotateY(180deg); }
 
-/* Common face styles */
 .card-face {
   position: absolute; inset: 0;
   backface-visibility: hidden;
@@ -417,15 +423,34 @@ nav {
 .card-front {
   background: var(--bg2);
   border: 1px solid var(--white10);
+  display: flex;                  /* ← FIX: make it flex column */
+  flex-direction: column;
 }
+
+/* top accent line */
+.card-front::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .5s var(--ease-snap);
+  z-index: 10;
+}
+.project-card-wrap:hover .card-front::before { transform: scaleX(1); }
+
+/* ── FIX: image takes up remaining space, footer fixed at bottom ── */
 .card-front-img {
-  width: 100%; height: 75%;
+  width: 100%;
+  flex: 1;                        /* ← fills available height */
+  min-height: 0;
   object-fit: cover;
   display: block;
 }
-/* gradient placeholder for missing images */
+
 .card-front-placeholder {
-  width: 100%; height: 75%;
+  width: 100%;
+  flex: 1;                        /* ← fills available height */
+  min-height: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   position: relative; overflow: hidden;
@@ -450,7 +475,7 @@ nav {
 }
 .project-card-wrap:hover .cfp-icon { transform: scale(1.08) rotate(4deg); }
 
-/* sheen overlay on front */
+/* sheen overlay */
 .card-front-sheen {
   position: absolute; inset: 0;
   background: linear-gradient(135deg,
@@ -460,25 +485,18 @@ nav {
   );
   pointer-events: none;
   transition: opacity .4s;
+  z-index: 2;
 }
-
-/* top accent line on hover */
-.card-front::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--violet), var(--cyan));
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .5s var(--ease-snap);
-  z-index: 10;
-}
-.project-card-wrap:hover .card-front::before { transform: scaleX(1); }
 
 .card-front-footer {
-  height: 25%;
+  flex-shrink: 0;                  /* ← never squish the footer */
+  height: 90px;
   padding: 0 1.5rem;
   display: flex; flex-direction: column; justify-content: center;
   border-top: 1px solid var(--white5);
   position: relative;
+  z-index: 3;
+  background: var(--bg2);
 }
 .card-front-title {
   font-family: var(--font-serif); font-size: 1.35rem;
@@ -562,7 +580,7 @@ nav {
 .proj-link:hover { background: var(--cyan); transform: translateY(-1px); }
 
 /* ── EDUCATION ── */
-.edu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; }
+.edu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
 .edu-card {
   background:var(--bg3); border:1px solid var(--white5);
   border-radius:1.5rem; padding:2rem;
@@ -587,7 +605,7 @@ nav {
   display:inline-flex; align-items:center; gap:.5rem;
   font-family:var(--font-serif); font-style:italic; font-size:1.1rem;
   text-decoration:none; color:var(--violet); margin-bottom:2.5rem;
-  transition:color .25s;
+  transition:color .25s; word-break: break-all;
 }
 .contact-email:hover { color:var(--cyan); }
 .social-links { display:flex; gap:.75rem; flex-wrap:wrap; }
@@ -655,21 +673,116 @@ footer {
 .footer-back { font-size:.65rem; letter-spacing:.1em; color:var(--text-dim); text-decoration:none; transition:color .2s; }
 .footer-back:hover { color:var(--text); }
 
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .nav-links,.nav-cta{display:none;}
-  .hamburger{display:flex;}
-  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .section-wrap{padding:70px 5vw;}
-  .projects-grid{grid-template-columns:1fr;}
-  .about-stats{grid-template-columns:repeat(3,1fr);}
-  .project-card-wrap { height: 460px; }
+/* ════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 1024px)
+════════════════════════════════════════════ */
+@media(max-width:1024px){
+  .about-grid { grid-template-columns: 1fr 1.4fr; gap:3rem; }
+  .contact-grid { gap:3rem; }
+  .section-wrap { padding:80px 5vw; }
 }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — TABLET PORTRAIT (≤ 768px)
+════════════════════════════════════════════ */
+@media(max-width:768px){
+  /* Nav */
+  .nav-links, .nav-cta { display:none; }
+  .hamburger { display:flex; }
+
+  /* Hero */
+  #hero { padding: 6rem 6vw 3.5rem; }
+  .hero-name { font-size: clamp(2.8rem,12vw,5.5rem); line-height: 1.08; }
+  .hero-eyebrow { margin-bottom:1.5rem; }
+  .hero-intro { font-size:.9rem; }
+
+  /* Sections */
+  .section-wrap { padding:65px 5vw; }
+  .about-grid { grid-template-columns:1fr; gap:2.5rem; }
+  .about-img-wrap { max-width: 340px; margin: 0 auto; width:100%; }
+  .about-stats { grid-template-columns:repeat(3,1fr); }
+
+  /* Skills */
+  .skills-grid { grid-template-columns:1fr; }
+
+  /* Projects — single column, auto height */
+  .projects-grid { grid-template-columns:1fr; }
+  .project-card-wrap { height:420px; }
+
+  /* Contact */
+  .contact-grid { grid-template-columns:1fr; gap:2.5rem; }
+
+  /* Footer */
+  footer { flex-direction:column; text-align:center; gap:.75rem; }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 480px)
+════════════════════════════════════════════ */
 @media(max-width:480px){
-  .hero-cta{flex-direction:column;align-items:center;}
-  .about-stats{grid-template-columns:1fr;}
-  .skills-grid{grid-template-columns:1fr;}
+  /* Nav */
+  .nav-logo { font-size:.88rem; }
+
+  /* Hero */
+  #hero { padding: 5.5rem 5vw 3rem; min-height: 100svh; }
+  .hero-name { font-size: clamp(2.4rem,13vw,4rem); letter-spacing:-.01em; }
+  .hero-eyebrow { font-size:.6rem; gap:.3rem; }
+  .hero-eyebrow::before, .hero-eyebrow::after { width:18px; }
+  .hero-title { font-size:.95rem; }
+  .hero-divider { height:35px; }
+  .hero-intro { font-size:.85rem; margin-bottom:2rem; }
+  .hero-cta { flex-direction:column; align-items:center; gap:.75rem; }
+  .btn-shiny-inner { padding:.75rem 1.6rem; font-size:.68rem; }
+  .btn-ghost { padding:.75rem 1.4rem; font-size:.68rem; }
+
+  /* Sections */
+  .section-wrap { padding:55px 5vw; }
+  .section-title { margin-bottom:2rem; }
+
+  /* About */
+  .about-stats { grid-template-columns:repeat(3,1fr); gap:.75rem; }
+  .stat-num { font-size:2rem; }
+  .stat-label { font-size:.55rem; }
+  .about-text { font-size:.88rem; }
+
+  /* Skills */
+  .skill-category { padding:1.5rem; }
+
+  /* Projects */
+  .project-card-wrap { height:400px; }
+  .card-front-title { font-size:1.15rem; }
+  .back-text { font-size:.74rem; }
+
+  /* Timeline */
+  .timeline { padding-left:1.5rem; }
+  .timeline-dot { left:-1.5rem; }
+  .timeline-role { font-size:1.2rem; }
+  .timeline-desc { font-size:.85rem; }
+  .timeline-meta { gap:.5rem; }
+
+  /* Education */
+  .edu-grid { grid-template-columns:1fr; }
+  .edu-card { padding:1.5rem; }
+
+  /* Contact */
+  .contact-email { font-size:.95rem; }
+  .social-links { gap:.5rem; }
+  .social-link { font-size:.58rem; padding:.45rem .8rem; }
+  .form-body { padding:1.5rem; }
+
+  /* Ticker */
+  .ticker-value { font-size:.8rem; }
+  .ticker-label { font-size:.55rem; }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — TINY PHONES (≤ 360px)
+════════════════════════════════════════════ */
+@media(max-width:360px){
+  .hero-name { font-size: clamp(2.1rem,14vw,3.5rem); }
+  .project-card-wrap { height:380px; }
+  .about-stats { grid-template-columns:1fr 1fr; }
+  .stat-num { font-size:1.8rem; }
 }
 </style>
 </head>
@@ -704,18 +817,19 @@ footer {
 </div>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="mobile-link">About</a>
-  <a href="#skills" class="mobile-link">Skills</a>
+  <a href="#about"      class="mobile-link">About</a>
+  <a href="#skills"     class="mobile-link">Skills</a>
   <a href="#experience" class="mobile-link">Experience</a>
-  <a href="#projects" class="mobile-link">Projects</a>
-  <a href="#education" class="mobile-link">Education</a>
-  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="#projects"   class="mobile-link">Projects</a>
+  <a href="#education"  class="mobile-link">Education</a>
+  <a href="#contact"    class="mobile-link">Contact</a>
 </div>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
   <div class="hero-radial"></div>
   <canvas id="rays-canvas"></canvas>
+
   <div class="hero-inner">
     <p class="hero-eyebrow">Portfolio — 2026</p>
     <h1 class="hero-name">MD. MAZHAR <br><em class="shimmer-word">UDDIN</em></h1>
@@ -750,6 +864,7 @@ footer {
     <div class="ticker-sep"></div>
     <div class="ticker-item"><span class="ticker-label">Mode</span><span class="ticker-value tv-violet">Remote Friendly</span></div>
     <div class="ticker-sep"></div>
+    <!-- duplicate for infinite scroll -->
     <div class="ticker-item"><span class="ticker-label">Experience</span><span class="ticker-value tv-violet">2+ Years</span></div>
     <div class="ticker-sep"></div>
     <div class="ticker-item"><span class="ticker-label">Projects</span><span class="ticker-value tv-cyan">6 Completed</span></div>
@@ -775,14 +890,15 @@ footer {
     <div class="about-grid">
       <div class="about-img-wrap fade-in">
         <div class="about-img-inner">
-          <img src="IMG_20260430_164738.jpg" alt="Mazhar Uddin" onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,rgba(139,92,246,0.12),rgba(6,182,212,0.08))'">
+          <img src="IMG_20260430_164738.jpg" alt="Mazhar Uddin"
+               onerror="this.style.display='none'; this.parentNode.style.background='linear-gradient(135deg,rgba(139,92,246,0.12),rgba(6,182,212,0.08))'">
         </div>
       </div>
       <div>
         <p class="section-label fade-in">About Me</p>
         <h2 class="section-title fade-in delay-1">A little bit<br><em>about me</em></h2>
-        <p class="about-text fade-in delay-2">I began my career in the BPO industry, where I worked for three years and developed strong communication and problem-solving skills. Interacting with customers daily taught me the importance of clarity, patience, and empathy — traits that directly shape my design philosophy.</p>
-        <p class="about-text fade-in delay-3">I value empathy, simplicity, and continuous improvement. My working style is research-driven and practical — understanding users deeply, thinking logically about solutions, and iterating based on feedback. I'm passionate about creating designs that are not just beautiful, but genuinely useful.</p>
+        <p class="about-text fade-in delay-2">I began my career in the BPO industry, where I worked for three years and developed strong communication and problem-solving skills. Interacting with customers daily helped me truly understand user frustrations and expectations. After a long break, I chose to transition into UI/UX design with clarity and purpose.</p>
+        <p class="about-text fade-in delay-3">I value empathy, simplicity, and continuous improvement. My working style is research-driven and practical — understanding users deeply, thinking logically, and creating clean, functional designs that solve real problems.</p>
         <div class="about-stats fade-in delay-4">
           <div><div class="stat-num">2+</div><div class="stat-label">Years Experience</div></div>
           <div><div class="stat-num">6</div><div class="stat-label">Projects Done</div></div>
@@ -805,7 +921,7 @@ footer {
         <div class="skill-item"><div class="skill-header"><span class="skill-name">Wireframing</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div></div>
         <div class="skill-item"><div class="skill-header"><span class="skill-name">Information Architecture</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div></div>
         <div class="skill-item"><div class="skill-header"><span class="skill-name">Usability Testing</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div></div>
-        <div class="skill-tags"><span class="skill-tag">User Flows</span><span class="skill-tag">Design Thinking</span><span class="skill-tag">Problem Solving</span><span class="skill-tag">Interaction Design</span></div>
+        <div class="skill-tags"><span class="skill-tag">User Flows</span><span class="skill-tag">Design Thinking</span><span class="skill-tag">Problem Solving</span><span class="skill-tag">Interaction Planning</span></div>
       </div>
       <div class="skill-category fade-in delay-2">
         <p class="skill-cat-title">Visual & UI Design</p>
@@ -844,7 +960,7 @@ footer {
           <span class="timeline-company">Self-Employed</span>
         </div>
         <h3 class="timeline-role">Freelancer</h3>
-        <p class="timeline-desc">Freelance UI/UX Designer creating user-friendly digital experiences through research, wireframing, and visual design. Working directly with clients to translate ideas into polished, functional designs.</p>
+        <p class="timeline-desc">Freelance UI/UX Designer creating user-friendly digital experiences through research, wireframing, and visual design. Working directly with clients to translate ideas into intuitive, polished interfaces.</p>
       </div>
       <div class="timeline-item fade-in delay-2">
         <div class="timeline-dot"></div>
@@ -853,34 +969,39 @@ footer {
           <span class="timeline-company">Wipro</span>
         </div>
         <h3 class="timeline-role">Customer Care Executive</h3>
-        <p class="timeline-desc">Managed customer inquiries in a high-volume BPO environment. This experience taught me how to deeply understand user pain points, communicate clear solutions, and remain detail-oriented under pressure.</p>
+        <p class="timeline-desc">Managed customer inquiries in a high-volume BPO environment. This experience taught me how to deeply understand user pain points, communicate clear solutions, and remain calm under pressure — skills that transfer directly into user-centred design thinking.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ PROJECTS — 3D FLIP CARDS ══ -->
+<!-- ══ PROJECTS — 3D FLIP CARDS (FIXED STRUCTURE) ══ -->
 <section id="projects" style="background:var(--bg);position:relative;z-index:1;">
   <div class="section-wrap">
     <p class="section-label fade-in">Selected Work</p>
     <h2 class="section-title fade-in delay-1">Featured<br><em>Projects</em></h2>
     <p style="font-size:.75rem;letter-spacing:.1em;color:var(--text-dim);margin-top:-2rem;margin-bottom:2.5rem;text-transform:uppercase;" class="fade-in delay-2">Click any card to reveal details</p>
+
     <div class="projects-grid">
-      <!-- CARD 01 — FENRE -->
+
+      <!-- ══ CARD 01 — FENRE (BUG FIXED: sheen & footer now inside .card-front) ══ -->
       <div class="project-card-wrap fade-in" onclick="flipCard(this)">
         <div class="card-inner">
+          <!-- FRONT -->
           <div class="card-face card-front">
-            <img src="COVER -fenre FINAL.png" class="card-front-img" alt="FENRE Project">
-            <div class="card-front-sheen"></div>
-            <div class="card-front-footer">
+            <img src="COVER -fenre FINAL.png" class="card-front-img" alt="FENRE Project"
+                 onerror="this.style.display='none'">
+            <div class="card-front-sheen"></div>  <!-- ✅ NOW INSIDE card-front -->
+            <div class="card-front-footer">       <!-- ✅ NOW INSIDE card-front -->
               <div class="card-front-title">FENRE</div>
               <div class="card-front-hint">Click to explore</div>
             </div>
           </div>
+          <!-- BACK -->
           <div class="card-face card-back">
             <div class="back-header">
               <div class="back-title">FENRE</div>
-              <span class="back-close-hint" onclick="closeCard(event, this)">↩ flip back</span>
+              <span class="back-close-hint" onclick="closeCard(event,this)">↩ flip back</span>
             </div>
             <div class="back-blocks">
               <div class="back-block">
@@ -913,28 +1034,19 @@ footer {
             </div>
             <div class="card-front-sheen"></div>
             <div class="card-front-footer">
-              <div class="card-front-title">Coming Soon</div>
+              <div class="card-front-title">[Project Name]</div>
               <div class="card-front-hint">Click to explore</div>
             </div>
           </div>
           <div class="card-face card-back">
             <div class="back-header">
-              <div class="back-title">Project 02</div>
-              <span class="back-close-hint" onclick="closeCard(event, this)">↩ flip back</span>
+              <div class="back-title">[Project Name]</div>
+              <span class="back-close-hint" onclick="closeCard(event,this)">↩ flip back</span>
             </div>
             <div class="back-blocks">
-              <div class="back-block">
-                <span class="back-label bl-violet">Problem</span>
-                <p class="back-text">Coming soon. Update your portfolio with your next project details.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-cyan">Solution</span>
-                <p class="back-text">Share your design approach and decisions made on this project.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-emerald">Result</span>
-                <p class="back-text">Document the outcome, metrics, or impact achieved.</p>
-              </div>
+              <div class="back-block"><span class="back-label bl-violet">Problem</span><p class="back-text">Describe the problem you identified or were given.</p></div>
+              <div class="back-block"><span class="back-label bl-cyan">Solution</span><p class="back-text">Explain your design approach and decisions made.</p></div>
+              <div class="back-block"><span class="back-label bl-emerald">Result</span><p class="back-text">Share the outcome, metrics, or impact achieved.</p></div>
             </div>
             <div class="back-footer">
               <a href="#" class="proj-link" target="_blank" onclick="event.stopPropagation()">↗ View Live Project</a>
@@ -953,28 +1065,19 @@ footer {
             </div>
             <div class="card-front-sheen"></div>
             <div class="card-front-footer">
-              <div class="card-front-title">Coming Soon</div>
+              <div class="card-front-title">[Project Name]</div>
               <div class="card-front-hint">Click to explore</div>
             </div>
           </div>
           <div class="card-face card-back">
             <div class="back-header">
-              <div class="back-title">Project 03</div>
-              <span class="back-close-hint" onclick="closeCard(event, this)">↩ flip back</span>
+              <div class="back-title">[Project Name]</div>
+              <span class="back-close-hint" onclick="closeCard(event,this)">↩ flip back</span>
             </div>
             <div class="back-blocks">
-              <div class="back-block">
-                <span class="back-label bl-violet">Problem</span>
-                <p class="back-text">Coming soon. Update your portfolio with your next project details.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-cyan">Solution</span>
-                <p class="back-text">Share your design approach and decisions made on this project.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-emerald">Result</span>
-                <p class="back-text">Document the outcome, metrics, or impact achieved.</p>
-              </div>
+              <div class="back-block"><span class="back-label bl-violet">Problem</span><p class="back-text">Describe the problem you identified or were given.</p></div>
+              <div class="back-block"><span class="back-label bl-cyan">Solution</span><p class="back-text">Explain your design approach and decisions made.</p></div>
+              <div class="back-block"><span class="back-label bl-emerald">Result</span><p class="back-text">Share the outcome, metrics, or impact achieved.</p></div>
             </div>
             <div class="back-footer">
               <a href="#" class="proj-link" target="_blank" onclick="event.stopPropagation()">↗ View Live Project</a>
@@ -989,32 +1092,23 @@ footer {
           <div class="card-face card-front">
             <div class="card-front-placeholder" style="background:linear-gradient(135deg,rgba(6,182,212,0.09) 0%,rgba(16,185,129,0.08) 100%);">
               <span class="cfp-num">04</span>
-              <div class="cfp-icon">◆</div>
+              <div class="cfp-icon">◰</div>
             </div>
             <div class="card-front-sheen"></div>
             <div class="card-front-footer">
-              <div class="card-front-title">Coming Soon</div>
+              <div class="card-front-title">[Project Name]</div>
               <div class="card-front-hint">Click to explore</div>
             </div>
           </div>
           <div class="card-face card-back">
             <div class="back-header">
-              <div class="back-title">Project 04</div>
-              <span class="back-close-hint" onclick="closeCard(event, this)">↩ flip back</span>
+              <div class="back-title">[Project Name]</div>
+              <span class="back-close-hint" onclick="closeCard(event,this)">↩ flip back</span>
             </div>
             <div class="back-blocks">
-              <div class="back-block">
-                <span class="back-label bl-violet">Problem</span>
-                <p class="back-text">Coming soon. Update your portfolio with your next project details.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-cyan">Solution</span>
-                <p class="back-text">Share your design approach and decisions made on this project.</p>
-              </div>
-              <div class="back-block">
-                <span class="back-label bl-emerald">Result</span>
-                <p class="back-text">Document the outcome, metrics, or impact achieved.</p>
-              </div>
+              <div class="back-block"><span class="back-label bl-violet">Problem</span><p class="back-text">Describe the problem you identified or were given.</p></div>
+              <div class="back-block"><span class="back-label bl-cyan">Solution</span><p class="back-text">Explain your design approach and decisions made.</p></div>
+              <div class="back-block"><span class="back-label bl-emerald">Result</span><p class="back-text">Share the outcome, metrics, or impact achieved.</p></div>
             </div>
             <div class="back-footer">
               <a href="#" class="proj-link" target="_blank" onclick="event.stopPropagation()">↗ View Live Project</a>
@@ -1022,80 +1116,72 @@ footer {
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <!-- EDUCATION -->
-<section id="education" style="background:var(--bg);position:relative;z-index:1;">
+<div id="education" class="full-section">
   <div class="section-wrap">
-    <p class="section-label fade-in">Learning</p>
+    <p class="section-label fade-in">Background</p>
     <h2 class="section-title fade-in delay-1">Education &<br><em>Certifications</em></h2>
     <div class="edu-grid">
+      <div class="edu-card fade-in">
+        <p class="edu-year">2014 — 2016</p>
+        <h3 class="edu-degree">B.A (Hons) English</h3>
+        <p class="edu-school">Maulana Azad College, Kolkata</p>
+      </div>
       <div class="edu-card fade-in delay-1">
-        <div class="edu-year">2023 — 2024</div>
-        <div class="edu-degree">Interaction Design Specialist</div>
-        <div class="edu-school">Google Career Certificates (via Coursera)</div>
-        <div class="edu-detail">Specialized training in user research, wireframing, prototyping, and design systems. Focused on real-world UX workflows.</div>
-      </div>
-      <div class="edu-card fade-in delay-2">
-        <div class="edu-year">2023 — 2024</div>
-        <div class="edu-degree">UI/UX Design Fundamentals</div>
-        <div class="edu-school">Interaction Design Foundation</div>
-        <div class="edu-detail">Comprehensive curriculum covering design thinking, user-centered design, and practical design tools like Figma.</div>
-      </div>
-      <div class="edu-card fade-in delay-3">
-        <div class="edu-year">2014 — 2018</div>
-        <div class="edu-degree">Bachelor of Commerce</div>
-        <div class="edu-school">University of Calcutta</div>
-        <div class="edu-detail">General commerce background that instilled analytical thinking and structured problem-solving abilities.</div>
+        <p class="edu-year">2025</p>
+        <h3 class="edu-degree">Advanced Certification in UI/UX Design Strategy</h3>
+        <p class="edu-school">Intellipaat Software Solutions Pvt Ltd.</p>
+        <p class="edu-detail">UI UX Design Course — Cert. ID 31679-912027-345554</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- CONTACT -->
-<section id="contact" class="full-section">
+<section id="contact" style="background:var(--bg);position:relative;z-index:1;">
   <div class="section-wrap">
-    <p class="section-label fade-in">Get In Touch</p>
-    <h2 class="section-title fade-in delay-1">Let's <em>Connect</em></h2>
     <div class="contact-grid">
-      <div class="fade-in delay-2">
-        <p class="contact-text">I'm always open to discussing new design challenges, opportunities, or just chatting about great experiences. Feel free to reach out via the form or connect with me on social platforms.</p>
-        <a href="mailto:mazharu833@gmail.com" class="contact-email">mazharu833@gmail.com</a>
-        <div style="margin-bottom:2rem;">
-          <p style="font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim); margin-bottom:1rem;">Follow Me</p>
-          <div class="social-links">
-            <a href="https://twitter.com/mazharu833" class="social-link" target="_blank" onclick="event.stopPropagation()">Twitter / X</a>
-            <a href="https://linkedin.com/in/mazharu833" class="social-link" target="_blank" onclick="event.stopPropagation()">LinkedIn</a>
-            <a href="https://github.com/mazharu833-jpg" class="social-link" target="_blank" onclick="event.stopPropagation()">GitHub</a>
-            <a href="https://www.figma.com/@mazharu833" class="social-link" target="_blank" onclick="event.stopPropagation()">Figma</a>
-          </div>
+      <div>
+        <p class="section-label fade-in">Let's Talk</p>
+        <h2 class="section-title fade-in delay-1">Get In<br><em>Touch</em></h2>
+        <p class="contact-text fade-in delay-2">I'm currently open to new opportunities and interesting projects. Whether you have a question, a cool idea, or just want to say hi — my inbox is always open. Let's create something great together.</p>
+        <a href="mailto:mazharu833@gmail.com" class="contact-email fade-in delay-3">✉ mazharu833@gmail.com</a>
+        <div class="social-links fade-in delay-4">
+          <a href="#" class="social-link" target="_blank">in LinkedIn</a>
+          <a href="#" class="social-link" target="_blank">⌥ GitHub</a>
+          <a href="#" class="social-link" target="_blank">𝕏 Twitter</a>
+          <a href="#" class="social-link" target="_blank">◉ Dribbble</a>
         </div>
       </div>
-      <div class="code-window fade-in delay-3">
+      <div class="code-window fade-in delay-2">
         <div class="code-toolbar">
           <div class="win-dot wd-red"></div>
           <div class="win-dot wd-yellow"></div>
           <div class="win-dot wd-green"></div>
-          <div class="win-title">contact_form.js</div>
+          <span class="win-title">message.send</span>
         </div>
         <div class="form-body">
-          <form id="contactForm">
+          <h3 class="form-title">Send a Message</h3>
+          <form id="contactForm" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-input" name="user_name" required>
+              <label class="form-label">Your Name</label>
+              <input type="text" name="name" class="form-input" placeholder="Jane Smith" required>
             </div>
             <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-input" name="user_email" required>
+              <label class="form-label">Your Email</label>
+              <input type="email" name="email" class="form-input" placeholder="jane@example.com" required>
             </div>
             <div class="form-group">
               <label class="form-label">Message</label>
-              <textarea class="form-textarea" name="message" required></textarea>
+              <textarea name="message" class="form-textarea" placeholder="Tell me about your project..." required></textarea>
             </div>
-            <button type="submit" class="form-btn">
-              <span class="form-btn-inner">Send Message</span>
+            <button type="submit" class="form-btn" id="submitBtn">
+              <span class="form-btn-inner" id="btnText">Send Message →</span>
             </button>
           </form>
         </div>
@@ -1106,182 +1192,275 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <p class="footer-copy">© 2026 MD. Mazhar Uddin. All rights reserved.</p>
-  <div class="footer-status">
-    <div class="status-dot"></div>
-    <span>Open for collaborations</span>
-  </div>
+  <p class="footer-copy">© <span id="year"></span> DesignByMazhar. Crafted with care.</p>
+  <div class="footer-status"><div class="status-dot"></div>All Systems Operational</div>
   <a href="#hero" class="footer-back">↑ Back to top</a>
 </footer>
 
 <script>
-// ════════════════════════════════════════════════════════════════
-// EMAILJS INITIALIZATION & CONTACT FORM
-// ════════════════════════════════════════════════════════════════
-emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your actual EmailJS public key
+emailjs.init("B752Nnzk7rEAsMeha");
+document.getElementById('year').textContent = new Date().getFullYear();
 
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  contactForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const formBtn = this.querySelector('.form-btn');
-    const formBtnInner = formBtn.querySelector('.form-btn-inner');
-    const originalText = formBtnInner.textContent;
-    
-    // Disable button and show loading state
-    formBtn.disabled = true;
-    formBtnInner.textContent = 'Sending...';
-    
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
-      .then(function(response) {
-        formBtnInner.textContent = 'Message Sent! ✓';
-        setTimeout(() => {
-          formBtnInner.textContent = originalText;
-          formBtn.disabled = false;
-          contactForm.reset();
-        }, 2000);
-      }, function(error) {
-        formBtnInner.textContent = 'Error Sending';
-        console.error('EmailJS Error:', error);
-        setTimeout(() => {
-          formBtnInner.textContent = originalText;
-          formBtn.disabled = false;
-        }, 2000);
-      });
-  });
-}
-
-// ════════════════════════════════════════════════════════════════
-// 3D FLIP CARD FUNCTIONS
-// ════════════════════════════════════════════════════════════════
-function flipCard(el) {
-  const cardInner = el.querySelector('.card-inner');
-  if (cardInner) {
-    cardInner.classList.toggle('flipped');
-  }
-}
-
-function closeCard(event, el) {
-  event.stopPropagation();
-  const cardInner = el.closest('.card-inner');
-  if (cardInner) {
-    cardInner.classList.remove('flipped');
-  }
-}
-
-// ════════════════════════════════════════════════════════════════
-// MOBILE MENU TOGGLE
-// ════════════════════════════════════════════════════════════════
+/* ── Hamburger ── */
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
-if (hamburger && mobileMenu) {
-  hamburger.addEventListener('click', function() {
-    this.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-  });
-  document.querySelectorAll('.mobile-menu a').forEach(link => {
-    link.addEventListener('click', function() {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-    });
-  });
-}
-
-// ════════════════════════════════════════════════════════════════
-// SCROLL ANIMATIONS (Fade-in on scroll)
-// ════════════════════════════════════════════════════════════════
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver(function(entries) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, observerOptions);
-
-document.querySelectorAll('.fade-in').forEach(el => {
-  observer.observe(el);
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
 });
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}));
 
-// ════════════════════════════════════════════════════════════════
-// SKILL BARS ANIMATION
-// ════════════════════════════════════════════════════════════════
-const skillObserverOptions = {
-  threshold: 0.2
-};
-
-const skillObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !entry.target.dataset.animated) {
-      const skillFills = entry.target.querySelectorAll('.skill-fill');
-      skillFills.forEach(fill => {
-        const pct = fill.dataset.pct;
-        fill.style.width = pct + '%';
+/* ── Fade In / Skill bars ── */
+const fadeEls = document.querySelectorAll('.fade-in');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-fill').forEach(f => {
+        setTimeout(() => { f.style.width = f.dataset.pct + '%'; }, 200);
       });
-      entry.target.dataset.animated = 'true';
     }
   });
-}, skillObserverOptions);
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+fadeEls.forEach(el => io.observe(el));
 
-document.querySelectorAll('.skill-category').forEach(el => {
-  skillObserver.observe(el);
+const skillIo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting)
+      e.target.querySelectorAll('.skill-fill').forEach(f =>
+        setTimeout(() => f.style.width = f.dataset.pct + '%', 250));
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-category').forEach(el => skillIo.observe(el));
+
+/* ── Active nav ── */
+window.addEventListener('scroll', () => {
+  let cur = '';
+  document.querySelectorAll('[id]').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? '#fff' : '';
+  });
 });
 
-// ════════════════════════════════════════════════════════════════
-// WEBGL RAYS BACKGROUND (Hero Section)
-// ════════════════════════════════════════════════════════════════
-const canvas = document.getElementById('rays-canvas');
-if (canvas && canvas.getContext) {
-  const ctx = canvas.getContext('2d');
-  
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-  
-  let time = 0;
-  function animateRays() {
-    time += 0.002;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const maxRays = 8;
-    
-    for (let i = 0; i < maxRays; i++) {
-      const angle = (i / maxRays) * Math.PI * 2 + time;
-      const length = 800;
-      
-      const x1 = centerX + Math.cos(angle) * 100;
-      const y1 = centerY + Math.sin(angle) * 100;
-      const x2 = centerX + Math.cos(angle) * length;
-      const y2 = centerY + Math.sin(angle) * length;
-      
-      const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-      gradient.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
-      gradient.addColorStop(0.5, 'rgba(6, 182, 212, 0.1)');
-      gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
-      
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-    }
-    
-    requestAnimationFrame(animateRays);
-  }
-  animateRays();
+/* ── Contact form ── */
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const txt = document.getElementById('btnText');
+  txt.textContent = 'Sending...';
+  emailjs.sendForm('gmail_service', 'template_r884dvn', e.target)
+  .then(() => {
+    txt.textContent = 'Message Sent ✓';
+    setTimeout(() => { txt.textContent = 'Send Message →'; }, 3000);
+    e.target.reset();
+  }, () => {
+    txt.textContent = 'Failed — Try Again';
+    setTimeout(() => { txt.textContent = 'Send Message →'; }, 3000);
+  });
 }
-</script>
 
+/* ════════════════════════════════════════════
+   LIGHT RAYS — Vanilla WebGL
+════════════════════════════════════════════ */
+(function initLightRays() {
+  const canvas = document.getElementById('rays-canvas');
+  const gl = canvas.getContext('webgl', { alpha: true });
+  if (!gl) return;
+
+  const vert = `
+    attribute vec2 position;
+    void main() { gl_Position = vec4(position, 0.0, 1.0); }
+  `;
+  const frag = `
+    precision highp float;
+    uniform float iTime;
+    uniform vec2  iResolution;
+    uniform vec2  rayPos;
+    uniform vec2  rayDir;
+    uniform vec3  raysColor;
+    uniform float raysSpeed;
+    uniform float lightSpread;
+    uniform float rayLength;
+    uniform float pulsating;
+    uniform float fadeDistance;
+    uniform vec2  mousePos;
+    uniform float mouseInfluence;
+    uniform float noiseAmount;
+    uniform float distortion;
+
+    float noise(vec2 st){
+      return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);
+    }
+    float rayStrength(vec2 raySource,vec2 rayRefDir,vec2 coord,float seedA,float seedB,float speed){
+      vec2 toCoord=coord-raySource;
+      vec2 dn=normalize(toCoord);
+      float cosA=dot(dn,rayRefDir);
+      float d=distortion*sin(iTime*1.5+length(toCoord)*0.005);
+      float da=cosA+d;
+      float spread=pow(max(da,0.0),1.0/max(lightSpread,0.001));
+      float dist=length(toCoord);
+      float maxDist=max(iResolution.x,iResolution.y)*rayLength;
+      float lenFall=clamp((maxDist-dist)/maxDist,0.0,1.0);
+      float fadeFac=fadeDistance*max(iResolution.x,iResolution.y);
+      float fadeFall=clamp((fadeFac-dist)/fadeFac,0.0,1.0);
+      float pulse=pulsating>0.5?(0.85+0.15*sin(iTime*speed*4.0)):1.0;
+      float base=clamp((0.5+0.2*sin(da*seedA+iTime*speed))+(0.3+0.2*cos(-da*seedB+iTime*speed*0.8)),0.0,1.0);
+      return base*lenFall*fadeFall*spread*pulse;
+    }
+    void main(){
+      vec2 coord=gl_FragCoord.xy;
+      vec2 finalDir=normalize(rayDir);
+      if(mouseInfluence>0.0){
+        vec2 mScreen=mousePos*iResolution.xy;
+        vec2 mDir=normalize(mScreen-rayPos);
+        finalDir=normalize(mix(finalDir,mDir,mouseInfluence));
+      }
+      float r1=rayStrength(rayPos,finalDir,coord,45.2,31.4,0.8*raysSpeed);
+      float r2=rayStrength(rayPos,finalDir,coord,28.5,19.8,1.2*raysSpeed);
+      float r3=rayStrength(rayPos,finalDir,coord,12.1,56.2,0.5*raysSpeed);
+      float combined=(r1*0.4+r2*0.4+r3*0.2);
+      combined=pow(combined,0.7)*1.45;
+      vec3 color=raysColor*combined;
+      if(noiseAmount>0.0){
+        float n=noise(coord*0.01+iTime*0.05);
+        color*=(1.0-noiseAmount+noiseAmount*n);
+      }
+      gl_FragColor=vec4(color,combined*0.85);
+    }
+  `;
+
+  function compileShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s); return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER, vert));
+  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(prog, 'position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const U = {};
+  ['iTime','raysSpeed','lightSpread','rayLength','pulsating','fadeDistance','mouseInfluence','noiseAmount','distortion']
+    .forEach(n => U[n] = gl.getUniformLocation(prog, n));
+  ['iResolution','rayPos','rayDir','raysColor','mousePos']
+    .forEach(n => U[n] = gl.getUniformLocation(prog, n));
+
+  gl.uniform3f(U.raysColor, 0.545, 0.361, 0.965);
+  gl.uniform1f(U.raysSpeed,       1.4);
+  gl.uniform1f(U.lightSpread,     1.1);
+  gl.uniform1f(U.rayLength,       1.8);
+  gl.uniform1f(U.pulsating,       1.0);
+  gl.uniform1f(U.fadeDistance,    1.0);
+  gl.uniform1f(U.mouseInfluence,  0.25);
+  gl.uniform1f(U.noiseAmount,     0.025);
+  gl.uniform1f(U.distortion,      0.06);
+
+  let W = 0, H = 0;
+  function resize() {
+    const hero = document.getElementById('hero');
+    W = hero.clientWidth; H = hero.clientHeight;
+    const dpr = Math.min(window.devicePixelRatio, 2);
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(U.iResolution, canvas.width, canvas.height);
+    gl.uniform2f(U.rayPos, canvas.width * 0.5, canvas.height * 1.18);
+    gl.uniform2f(U.rayDir, 0, -1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const mouse = { x: 0.5, y: 0.5 };
+  const smooth = { x: 0.5, y: 0.5 };
+  window.addEventListener('mousemove', e => {
+    const hero = document.getElementById('hero');
+    const r = hero.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) / r.width;
+    mouse.y = (e.clientY - r.top)  / r.height;
+  });
+  /* Touch support for WebGL rays */
+  window.addEventListener('touchmove', e => {
+    const hero = document.getElementById('hero');
+    const r = hero.getBoundingClientRect();
+    const t = e.touches[0];
+    mouse.x = (t.clientX - r.left) / r.width;
+    mouse.y = (t.clientY - r.top)  / r.height;
+  }, { passive: true });
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+  function render(t) {
+    smooth.x += (mouse.x - smooth.x) * 0.04;
+    smooth.y += (mouse.y - smooth.y) * 0.04;
+    gl.uniform1f(U.iTime, t * 0.001);
+    gl.uniform2f(U.mousePos, smooth.x, 1.0 - smooth.y);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+
+/* ════════════════════════════════════════════
+   3D TILT + FLIP CARDS
+════════════════════════════════════════════ */
+function flipCard(wrap) {
+  wrap.querySelector('.card-inner').classList.toggle('flipped');
+}
+function closeCard(event, btn) {
+  event.stopPropagation();
+  btn.closest('.project-card-wrap').querySelector('.card-inner').classList.remove('flipped');
+}
+
+document.querySelectorAll('.project-card-wrap').forEach(wrap => {
+  const inner = wrap.querySelector('.card-inner');
+
+  /* Disable tilt on touch devices */
+  let isTouchDevice = false;
+  wrap.addEventListener('touchstart', () => { isTouchDevice = true; }, { passive: true });
+
+  wrap.addEventListener('mousemove', e => {
+    if (isTouchDevice) return;
+    if (inner.classList.contains('flipped')) return;
+    const r = wrap.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+    const y = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+    const rotX = -y * 11;
+    const rotY =  x * 11;
+    wrap.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.03)`;
+    wrap.style.transition = 'transform 0.08s linear';
+    const sheen = wrap.querySelector('.card-front-sheen');
+    if (sheen) {
+      sheen.style.background = `radial-gradient(circle at ${(x+1)*50}% ${(y+1)*50}%, rgba(139,92,246,0.18) 0%, transparent 60%)`;
+    }
+  });
+
+  wrap.addEventListener('mouseleave', () => {
+    wrap.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
+    wrap.style.transform  = '';
+    const sheen = wrap.querySelector('.card-front-sheen');
+    if (sheen) sheen.style.background = '';
+  });
+
+  const cardBack = wrap.querySelector('.card-back');
+  if (cardBack) {
+    cardBack.addEventListener('mouseenter', () => {
+      wrap.style.transform  = '';
+      wrap.style.transition = 'transform 0.3s';
+    });
+  }
+});
+</script>
 </body>
 </html>
