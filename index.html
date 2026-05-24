@@ -400,6 +400,8 @@ nav {
   perspective: 900px;
   cursor: pointer;
   position: relative;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .card-inner {
@@ -606,6 +608,7 @@ nav {
   font-family:var(--font-serif); font-style:italic; font-size:1.1rem;
   text-decoration:none; color:var(--violet); margin-bottom:2.5rem;
   transition:color .25s; word-break: break-all;
+  max-width: 100%; overflow-wrap: break-word;
 }
 .contact-email:hover { color:var(--cyan); }
 .social-links { display:flex; gap:.75rem; flex-wrap:wrap; }
@@ -990,7 +993,7 @@ footer {
           <!-- FRONT -->
           <div class="card-face card-front">
             <img src="COVER -fenre FINAL.png" class="card-front-img" alt="FENRE Project"
-                 onerror="this.style.display='none'">
+                 onerror="this.style.display='none';var p=document.createElement('div');p.className='card-front-placeholder';p.style.background='linear-gradient(135deg,rgba(139,92,246,0.12) 0%,rgba(6,182,212,0.08) 100%)';p.innerHTML='<span class=\'cfp-num\'>01</span><div class=\'cfp-icon\'>◈</div>';this.parentNode.insertBefore(p,this);">
             <div class="card-front-sheen"></div>  <!-- ✅ NOW INSIDE card-front -->
             <div class="card-front-footer">       <!-- ✅ NOW INSIDE card-front -->
               <div class="card-front-title">FENRE</div>
@@ -1365,13 +1368,11 @@ function handleFormSubmit(e) {
   gl.uniform1f(U.noiseAmount,     0.025);
   gl.uniform1f(U.distortion,      0.06);
 
-  let W = 0, H = 0;
   function resize() {
     const hero = document.getElementById('hero');
-    W = hero.clientWidth; H = hero.clientHeight;
     const dpr = Math.min(window.devicePixelRatio, 2);
-    canvas.width  = W * dpr;
-    canvas.height = H * dpr;
+    canvas.width  = hero.clientWidth * dpr;
+    canvas.height = hero.clientHeight * dpr;
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform2f(U.iResolution, canvas.width, canvas.height);
     gl.uniform2f(U.rayPos, canvas.width * 0.5, canvas.height * 1.18);
