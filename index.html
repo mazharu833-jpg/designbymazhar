@@ -168,7 +168,7 @@ nav { background:var(--glass-bg); backdrop-filter:blur(20px); -webkit-backdrop-f
 .project-card-wrap:hover .card-inner, .card-inner.flipped { will-change:transform; }
 .card-inner.flipped { transform:rotateY(180deg); }
 
-.card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:1.25rem; overflow:hidden; }
+.card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:1.25rem; overflow:hidden; transform:translateZ(0); -webkit-transform:translateZ(0); }
 
 .card-front { background:var(--bg2); border:1px solid var(--white10); display:flex; flex-direction:column; }
 .card-front::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--violet),var(--cyan)); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease-snap); z-index:10; }
@@ -732,18 +732,93 @@ function handleFormSubmit(e) {
   gl.uniform1f(U.rayLength,1.8); gl.uniform1f(U.pulsating,1.0); gl.uniform1f(U.fadeDistance,1.0);
   gl.uniform1f(U.mouseInfluence,0.25); gl.uniform1f(U.noiseAmount,0.025); gl.uniform1f(U.distortion,0.06);
   const heroEl = document.getElementById('hero');
-  function resize(){ const dpr=Math.min(window.devicePixelRatio,2); canvas.width=heroEl.clientWidth*dpr; canvas.height=heroEl.clientHeight*dpr; gl.viewport(0,0,canvas.width,canvas.height); gl.uniform2f(U.iResolution,canvas.width,canvas.height); gl.uniform2f(U.rayPos,canvas.width*0.5,canvas.height*1.18); gl.uniform2f(U.rayDir,0,-1); }
-  resize(); window.addEventListener('resize',resize);
-  const mouse={x:0.5,y:0.5}; const smooth={x:0.5,y:0.5};
-  window.addEventListener('mousemove',e=>{ const r=heroEl.getBoundingClientRect(); mouse.x=(e.clientX-r.left)/r.width; mouse.y=(e.clientY-r.top)/r.height; });
-  window.addEventListener('touchmove',e=>{ const r=heroEl.getBoundingClientRect(); const t=e.touches[0]; mouse.x=(t.clientX-r.left)/r.width; mouse.y=(t.clientY-r.top)/r.height; },{passive:true});
-  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
-  function render(t){ smooth.x+=(mouse.x-smooth.x)*0.04; smooth.y+=(mouse.y-smooth.y)*0.04; gl.uniform1f(U.iTime,t*0.001); gl.uniform2f(U.mousePos,smooth.x,1.0-smooth.y); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3); requestAnimationFrame(render); }
-  requestAnimationFrame(render);
+
+  /* ── Lifecycle state ── */
+  let rafId = null;
+  let heroVisible = true;
+  let heroBounds = { left:0, top:0, width:1, height:1 }; /* cached — never read in hot path */
+
+  /* FIX 1: Pause loop when hero scrolls out of view → stops burning GPU on skills/contact */
+  const heroObs = new IntersectionObserver(entries => {
+    heroVisible = entries[0].isIntersecting;
+    if (heroVisible && !rafId && !document.hidden) { rafId = requestAnimationFrame(render); }
+    else if (!heroVisible && rafId)               { cancelAnimationFrame(rafId); rafId = null; }
+  }, { threshold: 0 });
+  heroObs.observe(heroEl);
+
+  /* FIX 1b: Pause when tab is backgrounded → zero GPU when user switches tabs */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+    else if (heroVisible) { rafId = requestAnimationFrame(render); }
+  });
+
+  /* FIX 6: WebGL context loss (mobile GPU memory reclaim) — don't spin on dead context */
+  canvas.addEventListener('webglcontextlost', e => {
+    e.preventDefault();
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  });
+  canvas.addEventListener('webglcontextrestored', () => {
+    if (heroVisible && !document.hidden) rafId = requestAnimationFrame(render);
+  });
+
+  /* FIX 2: Cap DPR to 1.5 (was 2) — cuts GPU framebuffer allocation ~44% on Retina */
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio, 1.5);
+    canvas.width  = heroEl.clientWidth  * dpr;
+    canvas.height = heroEl.clientHeight * dpr;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(U.iResolution, canvas.width, canvas.height);
+    gl.uniform2f(U.rayPos, canvas.width * 0.5, canvas.height * 1.18);
+    gl.uniform2f(U.rayDir, 0, -1);
+    heroBounds = heroEl.getBoundingClientRect(); /* refresh cached bounds on resize only */
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const mouse  = { x: 0.5, y: 0.5 };
+  const smooth = { x: 0.5, y: 0.5 };
+
+  /* FIX 3: Use cached heroBounds — no getBoundingClientRect() on every pointer event */
+  window.addEventListener('mousemove', e => {
+    if (!heroVisible) return; /* skip entirely when hero is offscreen */
+    mouse.x = (e.clientX - heroBounds.left) / heroBounds.width;
+    mouse.y = (e.clientY - heroBounds.top)  / heroBounds.height;
+  });
+  window.addEventListener('touchmove', e => {
+    if (!heroVisible) return;
+    const t = e.touches[0];
+    mouse.x = (t.clientX - heroBounds.left) / heroBounds.width;
+    mouse.y = (t.clientY - heroBounds.top)  / heroBounds.height;
+  }, { passive: true });
+
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+  function render(ts) {
+    rafId = null; /* clear before scheduling — prevents double-loop on re-entry */
+    smooth.x += (mouse.x - smooth.x) * 0.04;
+    smooth.y += (mouse.y - smooth.y) * 0.04;
+    gl.uniform1f(U.iTime, ts * 0.001);
+    gl.uniform2f(U.mousePos, smooth.x, 1.0 - smooth.y);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (heroVisible && !document.hidden) { rafId = requestAnimationFrame(render); }
+    /* loop stops when hero offscreen or tab hidden — restarts automatically on re-entry */
+  }
+  rafId = requestAnimationFrame(render);
 })();
 
-function flipCard(wrap) { wrap.querySelector('.card-inner').classList.toggle('flipped'); }
-function closeCard(event, btn) { event.stopPropagation(); btn.closest('.project-card-wrap').querySelector('.card-inner').classList.remove('flipped'); }
+function flipCard(wrap) {
+  /* FIX 4: Reset tilt before flip — without this, card animates from tilted+scaled state → glitch */
+  wrap.style.transition = 'none';
+  wrap.style.transform  = '';
+  wrap.querySelector('.card-inner').classList.toggle('flipped');
+}
+function closeCard(event, btn) {
+  event.stopPropagation();
+  const wrap = btn.closest('.project-card-wrap');
+  wrap.style.transform = '';
+  wrap.querySelector('.card-inner').classList.remove('flipped');
+}
 
 document.querySelectorAll('.project-card-wrap').forEach(wrap => {
   const inner = wrap.querySelector('.card-inner');
@@ -754,7 +829,9 @@ document.querySelectorAll('.project-card-wrap').forEach(wrap => {
     const r = wrap.getBoundingClientRect();
     const x = (e.clientX - r.left - r.width/2) / (r.width/2);
     const y = (e.clientY - r.top - r.height/2) / (r.height/2);
-    wrap.style.transform = `perspective(900px) rotateX(${-y*11}deg) rotateY(${x*11}deg) scale(1.03)`;
+    /* FIX 5: No perspective() in transform — CSS perspective:900px on wrap already handles it.
+       Double perspective was the root cause of BrainStrata flip visual glitch. */
+    wrap.style.transform = `rotateX(${-y*11}deg) rotateY(${x*11}deg) scale(1.03)`;
     wrap.style.transition = 'transform 0.08s linear';
     const sheen = wrap.querySelector('.card-front-sheen');
     if (sheen) sheen.style.background = `radial-gradient(circle at ${(x+1)*50}% ${(y+1)*50}%, rgba(139,92,246,0.18) 0%, transparent 60%)`;
